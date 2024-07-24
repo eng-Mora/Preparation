@@ -45,6 +45,4 @@
 <iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
 </iframe>
 
-</body>
-</html>
 
