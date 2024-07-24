@@ -9,7 +9,7 @@
             padding: 20px;
         }
         .image-container img {
-            max-width: 100%;
+            max-width: 35%;
             height: auto;
         }
     </style>
@@ -22,28 +22,30 @@
 </html>
 
        
-       <h2>The Process platform</h2>
+       <h2>Preparation part 1</h2>
 <html>
 <body>
 
 <iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
 </iframe>
-        <h2>The Process platform</h2>
+        <h2>Preparation part 2</h2>
 <iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
 </iframe>
-        <h2>The Process platform</h2>
+        <h2>Preparation part 3</h2>
 
-
-
-<iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
-</iframe>
-
-
-
-        <h2>The Process platform</h2>
 
 
 <iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
 </iframe>
 
+
+
+        <h2>Preparation part 4</h2>
+
+
+<iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+</iframe>
+
+</body>
+</html>
 
