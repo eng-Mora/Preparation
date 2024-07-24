@@ -23,8 +23,7 @@
 
        
        <h2>Preparation part 1</h2>
-<html>
-<body>
+
 
 <iframe width="700" height="400" src="https://www.youtube.com/embed/tgbNymZ7vqY">
 </iframe>
