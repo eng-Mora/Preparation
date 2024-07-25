@@ -9,7 +9,7 @@
             padding: 20px;
         }
         .image-container img {
-            max-width: 45%;
+            max-width: 55%;
             height: auto;
         }
         .video-container {
