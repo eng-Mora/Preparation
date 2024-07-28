@@ -19,6 +19,12 @@
         .video-container h2 {
             margin-bottom: 10px;
         }
+        .footer-text {
+            text-align: center;
+            color: #302967; 
+            font-weight: bold; 
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -85,5 +91,5 @@
             </div>
         </div>
     </div>
-            <p>Developed by Eng: Amr Mohamed</p>
 
+    <p class="footer-text">Developed by Eng: Amr Mohamed</p>
