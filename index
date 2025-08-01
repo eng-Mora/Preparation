@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج التحضير - Preparation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #3a5a8a;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #333;
+            --white-color: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Tahoma', Arial, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white-color);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .logo-container {
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-container img {
+            max-width: 250px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .video-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin: 2rem 0;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        .video-container {
+            background-color: var(--white-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .video-container h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .progress-tracker {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 0.5rem;
+        }
+        
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active {
+            background-color: var(--primary-color);
+        }
+        
+        .progress-step.completed {
+            background-color: var(--accent-color);
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 1rem;
+        }
+        
+        .developer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--white-color);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .logo-container img {
+                max-width: 180px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .video-container h2 {
+                font-size: 1.2rem;
+            }
+            
+            .progress-step {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-container img {
+                max-width: 150px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .video-container {
+                padding: 1rem;
+            }
+            
+            .video-container h2 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    </div>
+    
+    <div class="logo-container">
+        <img src="https://i.ibb.co/t4dBqr9/26015241-c430-4b73-926a-4c46642063f0-removebg.png" alt="شعار الموقع">
+    </div>
+    
+    <div class="container">
+        <div class="progress-tracker">
+            <div class="progress-step completed" data-video="1">1</div>
+            <div class="progress-step" data-video="2">2</div>
+            <div class="progress-step" data-video="3">3</div>
+            <div class="progress-step" data-video="4">4</div>
+        </div>
+        
+        <section class="video-section">
+            <h2 class="section-title">Preparation</h2>
+            
+            <div class="video-container" id="video-1">
+                <h2><i class="fas fa-video"></i> الجزء الأول - Preparation part 1</h2>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1i-uqEjwVpoWhvAkBCnJaC3PV4fsgfouC/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="video-container" id="video-2">
+                <h2><i class="fas fa-video"></i> الجزء الثاني - Preparation part 2</h2>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1wo9BMuAsNlNCf9Ew4nrc3qhiP5uYimdQ/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="video-container" id="video-3">
+                <h2><i class="fas fa-video"></i> الجزء الثالث - Preparation part 3</h2>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1hNeGlqLNMrtfkj_MlF7-Syz_eWoMiA6L/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="video-container" id="video-4">
+                <h2><i class="fas fa-video"></i> الجزء الرابع - Preparation part 4</h2>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1SGiBEg2iLF1iazOS9CbNMwN8gzXZaSBH/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <div class="footer">
+        <p>All rights reserved &copy; <span id="year"></span></p>
+        <div class="developer-info">
+            <i class="fas fa-code"></i>
+            <span>Developed by Eng: Amr Mohamed</span>
+        </div>
+     
+    </div>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Progress tracker functionality
+        const progressSteps = document.querySelectorAll('.progress-step');
+        
+        progressSteps.forEach(step => {
+            step.addEventListener('click', () => {
+                const videoId = step.getAttribute('data-video');
+                const videoElement = document.getElementById(`video-${videoId}`);
+                
+                if (videoElement) {
+                    videoElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mark videos as watched when scrolled into view
+        const videoContainers = document.querySelectorAll('.video-container');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const videoId = entry.target.id.split('-')[1];
+                    const correspondingStep = document.querySelector(`.progress-step[data-video="${videoId}"]`);
+                    
+                    if (correspondingStep && !correspondingStep.classList.contains('completed')) {
+                        correspondingStep.classList.add('completed');
+                        
+                        // Mark previous steps as completed if not already
+                        for (let i = 1; i < videoId; i++) {
+                            const prevStep = document.querySelector(`.progress-step[data-video="${i}"]`);
+                            if (prevStep && !prevStep.classList.contains('completed')) {
+                                prevStep.classList.add('completed');
+                            }
+                        }
+                    }
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+        
+        videoContainers.forEach(container => {
+            observer.observe(container);
+        });
+    </script>
+</body>
+</html>
