@@ -1583,58 +1583,67 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         videoContainer.innerHTML = html;
 
-        // ── Load dynamic videos from Firebase ──────────────────
+        // ── Inject Firebase videos into each chapter ──────────
         try {
             const snap = await get(ref(db, 'videos/' + code));
             if (snap.exists()) {
-                const vids = snap.val();
-                const sorted = Object.values(vids).sort((a,b) => (a.order||0)-(b.order||0));
-                if (sorted.length > 0) {
-                    // Build dynamic video section HTML
-                    let dynHtml = '<div class="dynamic-videos-section">';
-                    dynHtml += '<h3 class="dynamic-videos-title">📹 الفيديوهات الجديدة</h3>';
-                    dynHtml += '<select class="video-selector" id="dynamicVideoSelector" onchange="window.showDynamicVideo(this.value)">';
-                    dynHtml += '<option value="">اختر الفيديو...</option>';
-                    sorted.forEach((v, i) => {
-                        dynHtml += `<option value="dv_${i}">${v.title}</option>`;
-                    });
-                    dynHtml += '</select>';
-                    sorted.forEach((v, i) => {
-                        dynHtml += `<div class="video" id="dv_${i}" style="display:none;">`;
-                        dynHtml += `<h3 class="video-title">${v.title}</h3>`;
-                        if (v.url2) {
-                            dynHtml += `<h3 class="video-title">الجزء الأول</h3>`;
-                        }
-                        dynHtml += `<iframe src="${v.url1}" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>`;
-                        if (v.url2) {
-                            dynHtml += `<h3 class="video-title">الجزء الثاني</h3>`;
-                            dynHtml += `<iframe src="${v.url2}" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>`;
-                        }
-                        dynHtml += '</div>';
-                    });
-                    dynHtml += '</div>';
+                const chapData = snap.val();
+                Object.entries(chapData).forEach(([chKey, vids]) => {
+                    const chNum = chKey.replace('ch','');
+                    const chapterEl = document.getElementById('chapter-' + chNum)
+                                   || document.getElementById('chapter-1');
+                    if (!chapterEl) return;
+                    const sorted = Object.values(vids).sort((a,b) => (a.order||0)-(b.order||0));
+                    if (!sorted.length) return;
 
-                    // Insert before logout button
-                    const logoutDiv = videoContainer.querySelector('.logout-container');
-                    if (logoutDiv) {
-                        logoutDiv.insertAdjacentHTML('beforebegin', dynHtml);
-                    } else {
-                        videoContainer.insertAdjacentHTML('beforeend', dynHtml);
+                    let secHtml = '<div class="fb-videos-section">';
+                    secHtml += '<div class="fb-videos-label">&#128249; فيديوهات جديدة</div>';
+                    secHtml += '<div class="video-menu"><select class="video-selector" onchange="window.showFbVideo(this.value)">';
+                    secHtml += '<option value="">اختر الفيديو...</option>';
+                    sorted.forEach((v,i) => {
+                        secHtml += '<option value="fb_' + chNum + '_' + i + '">' + v.title + '</option>';
+                    });
+                    secHtml += '</select></div>';
+                    sorted.forEach((v,i) => {
+                        secHtml += '<div class="video" id="fb_' + chNum + '_' + i + '" style="display:none;">';
+                        secHtml += '<h3 class="video-title">' + v.title + '</h3>';
+                        if (v.url2) secHtml += '<h3 class="video-title">الجزء الأول</h3>';
+                        secHtml += '<iframe src="' + v.url1 + '" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>';
+                        if (v.url2) {
+                            secHtml += '<h3 class="video-title">الجزء الثاني</h3>';
+                            secHtml += '<iframe src="' + v.url2 + '" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>';
+                        }
+                        secHtml += '</div>';
+                    });
+                    secHtml += '</div>';
+                    chapterEl.insertAdjacentHTML('beforeend', secHtml);
+                });
+
+                window.showFbVideo = function(id) {
+                    if (!id) return;
+                    const parts  = id.split('_');
+                    const chNum  = parts[1];
+                    const chapterEl = document.getElementById('chapter-' + chNum) || document.getElementById('chapter-1');
+                    if (!chapterEl) return;
+                    chapterEl.querySelectorAll('[id^="fb_"]').forEach(v => v.style.display = 'none');
+                    const t = document.getElementById(id);
+                    if (t) {
+                        t.style.display = 'block';
+                        if (window.innerWidth <= 768) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-
-                    // Attach change handler
-                    window.showDynamicVideo = function(id) {
-                        if (!id) return;
-                        videoContainer.querySelectorAll('[id^="dv_"]').forEach(v => v.style.display = 'none');
-                        const t = document.getElementById(id);
-                        if (t) {
-                            t.style.display = 'block';
-                            if (window.innerWidth <= 768) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    };
-                }
+                };
             }
-        } catch(e) { console.warn('Dynamic videos:', e); }
+        } catch(e) { console.warn('FB videos:', e); }
+
+        if (!document.getElementById('fbVidStyles')) {
+            const s = document.createElement('style');
+            s.id = 'fbVidStyles';
+            s.textContent = [
+                '.fb-videos-section{border-top:2px dashed rgba(212,175,55,.4);margin-top:1.5rem;padding-top:1.2rem;}',
+                '.fb-videos-label{font-size:.9rem;font-weight:700;color:#800000;margin-bottom:.8rem;}',
+            ].join('');
+            document.head.appendChild(s);
+        }
 
         // Branch selector events (CODE1 & CODE2)
         document.getElementById('branchSelector')?.addEventListener('change', function () {
