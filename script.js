@@ -16,8 +16,8 @@ const db = getDatabase(app);
 
 // Chapter names per CODE
 const CHAPTER_NAMES = {
-    CODE1:  {1:'الفصل الأول',2:'الفصل الثاني',3:'الفصل الثالث',4:'الفصل الرابع',5:'الفصل الخامس',6:'الفصل السادس'},
-    CODE2:  {1:'Chapter 1', 2:'Chapter 2',   3:'Chapter 3',   4:'Chapter 4',   5:'Chapter 5',   6:'Chapter 6'},
+    CODE1:  {1:'الفصل الأول',2:'الفصل الثاني',3:'الفصل الثالث',4:'الفصل الرابع',5:'الفصل الخامس',6:'الفصل السادس',7:'الفصل السابع',8:'الفصل الثامن'},
+    CODE2:  {1:'Chapter 1', 2:'Chapter 2',   3:'Chapter 3',   4:'Chapter 4',   5:'Chapter 5',   6:'Chapter 6',   7:'Chapter 7',   8:'Chapter 8'},
     CODE3:  {1:'مراجعة الفصل الأول'},
     CODE4:  {1:'Chapter 1 Revision'},
     CODE5:  {1:'Homework'},
