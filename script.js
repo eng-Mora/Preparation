@@ -95,9 +95,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.logout = function () {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
+        localStorage.removeItem('loginType');
         window.location.reload();
     };
 
+    // Check students collection
     async function getStudent(username) {
         try {
             const snap = await get(ref(db, 'students/' + username));
@@ -105,11 +107,32 @@ document.addEventListener('DOMContentLoaded', async function () {
         } catch { return null; }
     }
 
+    // Check if code is a review access code → return review info
+    async function getReviewByCode(code) {
+        try {
+            const snap = await get(ref(db, 'reviews'));
+            if (!snap.exists()) return null;
+            const reviews = snap.val();
+            for (const [rcId, rc] of Object.entries(reviews)) {
+                const accessCodes = Object.values(rc.accessCodes || {});
+                if (accessCodes.includes(code)) {
+                    return { rcId, code: rc.code, desc: rc.desc, videos: rc.videos || {} };
+                }
+            }
+            return null;
+        } catch { return null; }
+    }
+
     // ── Check login on load ───────────────────────────────────
     async function checkLoginState() {
-        const loggedIn = localStorage.getItem('isLoggedIn');
-        const username = localStorage.getItem('username');
+        const loggedIn  = localStorage.getItem('isLoggedIn');
+        const username  = localStorage.getItem('username');
+        const loginType = localStorage.getItem('loginType'); // 'student' or 'review'
         if (loggedIn === 'true' && username) {
+            if (loginType === 'review') {
+                const rv = await getReviewByCode(username);
+                if (rv) { await loadReviewContent(rv); showMain(); return; }
+            }
             const student = await getStudent(username);
             if (student && student.videoCode) {
                 await loadVideoContent(student.videoCode, username, student);
@@ -126,11 +149,26 @@ document.addEventListener('DOMContentLoaded', async function () {
         errEl.style.color   = '#888';
         errEl.textContent   = '⏳ جاري التحقق...';
 
+        // 1. Check review codes first
+        const rv = await getReviewByCode(username);
+        if (rv) {
+            errEl.textContent = '';
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username);
+            localStorage.setItem('loginType', 'review');
+            await loadReviewContent(rv);
+            showMain();
+            videoContainer.scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+
+        // 2. Check student codes
         const student = await getStudent(username);
         if (student && student.videoCode) {
             errEl.textContent = '';
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
+            localStorage.setItem('loginType', 'student');
             await loadVideoContent(student.videoCode, username, student);
             showMain();
             videoContainer.scrollIntoView({ behavior: 'smooth' });
@@ -139,6 +177,55 @@ document.addEventListener('DOMContentLoaded', async function () {
             errEl.textContent = 'Invalid access code, please try again';
         }
     });
+
+    // ── Load Review Content ──────────────────────────────────
+    async function loadReviewContent(rv) {
+        const sorted = Object.values(rv.videos).sort((a,b) => (a.order||0)-(b.order||0));
+
+        let html = `
+        <div class="welcome-banner">
+            <div class="welcome-text">
+                <h3>🎯 فيديوهات المراجعة</h3>
+                <p>${rv.desc || rv.code}</p>
+            </div>
+        </div>`;
+
+        html += '<div class="video-menu"><select class="video-selector" onchange="window._showVideo(this.value)">';
+        html += '<option value="">اختر الفيديو...</option>';
+        sorted.forEach((v,i) => {
+            html += `<option value="rv_${i}">${v.title}</option>`;
+        });
+        html += '</select></div>';
+
+        sorted.forEach((v,i) => {
+            const urls = [];
+            for (let j=1; j<=9; j++) { if(v['url'+j]) urls.push(v['url'+j]); else break; }
+            html += `<div class="video" id="rv_${i}" style="display:none;">`;
+            html += `<h3 class="video-title">${v.title}</h3>`;
+            if (urls.length > 1) {
+                urls.forEach((url,j) => {
+                    html += `<h3 class="video-title">الجزء ${j===0?'الأول':j===1?'الثاني':j+1}</h3>`;
+                    html += `<iframe src="${url}" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>`;
+                });
+            } else {
+                html += `<iframe src="${urls[0]||''}" width="100%" height="480" allow="autoplay" allowfullscreen></iframe>`;
+            }
+            html += '</div>';
+        });
+
+        html += `<div class="logout-container">
+            <button onclick="window.logout()" class="logout-btn">تسجيل الخروج</button>
+        </div>`;
+
+        videoContainer.innerHTML = html;
+
+        window._showVideo = function(id) {
+            if (!id) return;
+            videoContainer.querySelectorAll('.video').forEach(v => v.style.display='none');
+            const t = document.getElementById(id);
+            if (t) { t.style.display='block'; if(window.innerWidth<=768) t.scrollIntoView({behavior:'smooth',block:'center'}); }
+        };
+    }
 
     // ── Build video card HTML ─────────────────────────────────
     function buildVideoCard(v, idPrefix) {
