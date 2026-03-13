@@ -234,13 +234,8 @@ main {
 }
 
 .welcome-banner::before {
-    content: "🌙";
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 1.5rem;
-    opacity: 0.3;
-    animation: rotate 10s linear infinite;
+    content: "";
+    display: none;
 }
 
 @keyframes rotate {
@@ -321,10 +316,8 @@ main {
 }
 
 .message-badge::before {
-    content: "🌙";
-    margin-right: 10px;
-    animation: spin 3s linear infinite;
-    display: inline-block;
+    content: "";
+    display: none;
 }
 
 @keyframes spin {
