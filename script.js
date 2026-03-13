@@ -1,6 +1,4 @@
-// =============================================================
-// script.js — النسخة النهائية — كل الفيديوهات من Firebase
-// =============================================================
+
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -35,8 +33,8 @@ const CHAPTER_NAMES = {
 
 // Branch titles for CODE1/CODE2 chapter groups
 const BRANCH_CHAPTERS = {
-    CODE1: { electric:[1,2,3,4], modern:[5,6] },
-    CODE2: { electric:[1,2,3,4], modern:[5,6] },
+    CODE1: { electric:[1,2,3,4], modern:[5,6,7,8] },
+    CODE2: { electric:[1,2,3,4], modern:[5,6,7,8] },
 };
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -111,16 +109,21 @@ document.addEventListener('DOMContentLoaded', async function () {
     async function getReviewByCode(code) {
         try {
             const snap = await get(ref(db, 'reviews'));
-            if (!snap.exists()) return null;
+            if (!snap || !snap.exists()) return null;
             const reviews = snap.val();
+            if (!reviews || typeof reviews !== 'object') return null;
             for (const [rcId, rc] of Object.entries(reviews)) {
-                const accessCodes = Object.values(rc.accessCodes || {});
-                if (accessCodes.includes(code)) {
-                    return { rcId, code: rc.code, desc: rc.desc, videos: rc.videos || {} };
+                if (!rc || !rc.accessCodes) continue;
+                const accessCodes = Object.values(rc.accessCodes);
+                if (accessCodes.map(String).includes(String(code))) {
+                    return { rcId, code: rc.code || rcId, desc: rc.desc || '', videos: rc.videos || {} };
                 }
             }
             return null;
-        } catch { return null; }
+        } catch(e) {
+            console.warn('getReviewByCode error (non-blocking):', e);
+            return null;
+        }
     }
 
     // ── Check login on load ───────────────────────────────────
@@ -130,7 +133,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const loginType = localStorage.getItem('loginType'); // 'student' or 'review'
         if (loggedIn === 'true' && username) {
             if (loginType === 'review') {
-                const rv = await getReviewByCode(username);
+                let rv = null;
+                try { rv = await getReviewByCode(username); } catch(e) { rv = null; }
                 if (rv) { await loadReviewContent(rv); showMain(); return; }
             }
             const student = await getStudent(username);
@@ -149,8 +153,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         errEl.style.color   = '#888';
         errEl.textContent   = '⏳ جاري التحقق...';
 
-        // 1. Check review codes first
-        const rv = await getReviewByCode(username);
+        // 1. Check review codes first (non-blocking — if fails, continue to student check)
+        let rv = null;
+        try { rv = await getReviewByCode(username); } catch(e) { rv = null; }
         if (rv) {
             errEl.textContent = '';
             localStorage.setItem('isLoggedIn', 'true');
