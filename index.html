@@ -1,160 +1,0 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Educational Process Platform - رمضان كريم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <!-- Ramadan Decorations -->
-    <div class="ramadan-stars" id="ramadanStars"></div>
-    
-    <div class="ramadan-lanterns">
-        <div class="lantern">🏮</div>
-        <div class="lantern">🏮</div>
-        <div class="lantern">🏮</div>
-        <div class="lantern">🏮</div>
-    </div>
-
-    <!-- Sidebar -->
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="القائمة">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>🌙 القائمة</h3>
-        </div>
-        <div class="sidebar-menu">
-            <a href="#" id="homeLink" class="sidebar-link">
-                <i class="fas fa-home"></i>
-                <span>الصفحة الرئيسية</span>
-            </a>
-            <a href="https://eng-mora.github.io/Preparation/ar" target="_blank" class="sidebar-link">
-                <i class="fas fa-book"></i>
-                <span>حصة تأسيسية عربي</span>
-            </a>
-            <a href="https://eng-mora.github.io/Preparation/" target="_blank" class="sidebar-link">
-                <i class="fas fa-language"></i>
-                <span>حصة تأسيسية لغات</span>
-            </a>
-            <a href="#" id="ramadanLink" class="sidebar-link">
-                <i class="fas fa-moon"></i>
-                <span>رمضان كريم</span>
-            </a>
-        </div>
-    </div>
-
-    <main id="main" style="display:none;">
-        <section id="home">
-            <div style="text-align: center;">
-                <img src="https://i.ibb.co/0VcrXmdC/Whats-App-Image-2026-02-09-at-01-52-50.jpg" alt="Educational Process Platform" loading="lazy">
-                <h2>🌙 The Process Platform</h2>
-                <p style="color: var(--secondary-color); margin-top: 1rem;">كل ثانية بتذاكر فيها دلوقتي، بتقربك خطوة من حلمك. خليك قوي، وافتكر دايمًا إن التعب بيروح، لكن النتيجة بتفضل.</p>
-                <p style="color: var(--secondary-color); margin-top: 1rem;">❤️ بالتوفيق يا باشا</p>
-            </div>
-        </section>
-
-        <section id="videos" class="video-container">
-            <div style="text-align: center; padding: 2rem;">
-                <h3>🌙 Welcome to the Educational Videos Platform</h3>
-                <p>Please login to access the available educational content</p>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>🌙 Contact Us</h2>
-            <p>If you have any questions or need further information, feel free to contact us at</p>
-            <p><a href="/cdn-cgi/l/email-protection#412c202c33332e7974737801262c20282d6f222e2c"><span class="__cf_email__" data-cfemail="422f232f30302d7a77707b02252f232b2e6c212d2f">[email&#160;protected]</span></a></p>
-
-            <div class="social-icons">
-                <button style="background-color: transparent; border: none; padding: 10px;">
-                    <a href="https://www.facebook.com/mamro8529?mibextid=ZbWKwL" target="_blank" style="color: black; font-size: 35px;">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </button>
-                <button style="background-color: transparent; border: none; padding: 10px;">
-                    <a href="https://wa.me/message/5LRM2DVHPZQFM1" target="_blank" style="color: black; font-size: 35px;">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </button>
-                <button style="background-color: transparent; border: none; padding: 10px;">
-                    <a href="http://t.me/Mora_mo1" target="_blank" style="color: black; font-size: 35px;">
-                        <i class="fab fa-telegram-plane"></i>
-                    </a>
-                </button>
-            </div>
-
-            <div class="developer-credit">
-                <p>Developed by <a href="/cdn-cgi/l/email-protection#026f636f70706d3a37303b42656f636b6e2c616d6f">Eng: Amr Mohamed</a> 🌙</p>
-            </div>
-        </section>
-    </main>
-
-    <div class="login-container" id="loginContainer">
-        <div class="form-container">
-            <div class="left-section">
-                <h1>🌙 Ramadan Kareem</h1>
-                <p>Don't have an account?</p>
-                <button class="register-btn">Register</button>
-            </div>
-            <div class="right-section">
-                <h2>🌙 Login</h2>
-                <form id="loginForm">
-                    <div class="input-group">
-                        <input type="text" id="username" name="username" required placeholder="Enter access code">
-                        <i class="fas fa-key icon"></i>
-                    </div>
-                    <button type="submit" class="login-btn">LOGIN</button>
-
-                    <div id="errorMessage" class="error"></div>
-                </form>
-                <p class="or">Developed by Eng: Amr Mohamed 🌙</p>
-                <p class="or">لو واجهتك مشكلة ابعتلي</p>
-
-                <div class="social-icons">
-                    <button style="background-color: transparent; border: none; padding: 10px;">
-                        <a href="https://www.facebook.com/mamro8529?mibextid=ZbWKwL" target="_blank" style="color: black; font-size: 35px;">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </button>
-                    <button style="background-color: transparent; border: none; padding: 10px;">
-                        <a href="https://wa.me/message/5LRM2DVHPZQFM1" target="_blank" style="color: black; font-size: 35px;">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </button>
-                    <button style="background-color: transparent; border: none; padding: 10px;">
-                        <a href="http://t.me/Mora_mo1" target="_blank" style="color: black; font-size: 35px;">
-                            <i class="fab fa-telegram-plane"></i>
-                        </a>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Message Modal -->
-    <div class="modal-overlay" id="messageOverlay"></div>
-    <div class="message-modal" id="messageModal">
-        <div class="message-modal-header">
-            <h3>🌙 Ramadan Kareem Message</h3>
-            <div class="close-modal" id="closeModal">&times;</div>
-        </div>
-        <div class="message-modal-body">
-            <div class="message-item">
-                <div class="message-content">
-                    رمضان كريم يا أبطال 🌙
-                    حابب أفكركم إن الشهر ده مش اختيار بين العبادة أو المذاكرة، الاتنين مع بعض. وازنوا وقتكم بين الصلاة والعبادة والمذاكرة، وماتقصّروش في ولا حاجة. لما تنظموا يومكم صح هتلاقوا بركة وإنجاز في الاتنين.
-                </div>
-                <div class="message-date">تم الإرسال: 20 فبراير 2026</div>
-            </div>
-
-            <div class="message-item">
-                <div class="message-content">
-                    شدّوا حيلكم، وإحنا واثقين فيكم جدًا وإن شاء الله يكون رمضان بداية خير ليكم.
-                </div>
-                <div class="message-date">تم الإرسا�
