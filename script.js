@@ -1,5 +1,3 @@
-
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, get, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
@@ -128,6 +126,44 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // ── Check login on load ───────────────────────────────────
     async function checkLoginState() {
+        // ── Auto-login من URL parameter (?username=XXXX) ──────
+        const urlParams  = new URLSearchParams(window.location.search);
+        const urlUser    = urlParams.get('username');
+        if (urlUser) {
+            // امسح الـ param من الرابط بدون reload
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, '', cleanUrl);
+            // جرب student أولاً
+            const studentFromUrl = await getStudent(urlUser);
+            if (studentFromUrl && studentFromUrl.videoCode && !studentFromUrl.banned) {
+                const now = Date.now();
+                set(ref(db, `students/${urlUser}/lastSeen`), now);
+                push(ref(db, `loginLogs/${urlUser}`), { at: now, name: studentFromUrl.name });
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', urlUser);
+                localStorage.setItem('loginType', 'student');
+                await loadVideoContent(studentFromUrl.videoCode, urlUser, studentFromUrl);
+                showMain();
+                return;
+            }
+            // جرب review code
+            let rvUrl = null;
+            try { rvUrl = await getReviewByCode(urlUser); } catch(e) { rvUrl = null; }
+            if (rvUrl) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', urlUser);
+                localStorage.setItem('loginType', 'review');
+                await loadReviewContent(rvUrl);
+                showMain();
+                return;
+            }
+            // الكود مش موجود — وريه رسالة خطأ في اللوجين
+            showLogin();
+            document.getElementById('errorMessage').style.color = '#dc3545';
+            document.getElementById('errorMessage').textContent  = '❌ الكود مش موجود، تواصل مع المشرف.';
+            return;
+        }
+        // ─────────────────────────────────────────────────────
         const loggedIn  = localStorage.getItem('isLoggedIn');
         const username  = localStorage.getItem('username');
         const loginType = localStorage.getItem('loginType'); // 'student' or 'review'
