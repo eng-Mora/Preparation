@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, get, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, get, push, set, onValue, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const app = initializeApp({
     apiKey: "AIzaSyBXsX0v_7p8CHDFiTUm4XkQsoZIqGueAOk",
@@ -95,6 +95,24 @@ document.addEventListener('DOMContentLoaded', async function () {
         window.location.reload();
     };
 
+    // ── Ban Watcher — يراقب الطالب real-time ─────────────────
+    let banWatcherRef = null;
+    function startBanWatcher(username) {
+        if (banWatcherRef) off(banWatcherRef); // امسح القديم لو موجود
+        banWatcherRef = ref(db, 'students/' + username + '/banned');
+        onValue(banWatcherRef, (snap) => {
+            if (snap.val() === true) {
+                off(banWatcherRef);
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('username');
+                localStorage.removeItem('loginType');
+                showLogin();
+                document.getElementById('errorMessage').style.color = '#dc3545';
+                document.getElementById('errorMessage').textContent = '🚫 تم تعليق هذا الحساب. تواصل مع المشرف.';
+            }
+        });
+    }
+
     // Check students collection
     async function getStudent(username) {
         try {
@@ -144,6 +162,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 localStorage.setItem('loginType', 'student');
                 await loadVideoContent(studentFromUrl.videoCode, urlUser, studentFromUrl);
                 showMain();
+                startBanWatcher(urlUser);
                 return;
             }
             // جرب review code
@@ -186,11 +205,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
                 await loadVideoContent(student.videoCode, username, student);
                 showMain();
+                startBanWatcher(username);
             } else { showLogin(); }
         } else { showLogin(); }
     }
-
-    // ── Login ─────────────────────────────────────────────────
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const username = document.getElementById('username').value.trim();
@@ -226,6 +244,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             // ─────────────────────────────────────────────────────
             await loadVideoContent(student.videoCode, username, student);
             showMain();
+            startBanWatcher(username);
             videoContainer.scrollIntoView({ behavior: 'smooth' });
         } else {
             errEl.style.color = '#dc3545';
