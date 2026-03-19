@@ -175,6 +175,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
             const student = await getStudent(username);
             if (student && student.videoCode) {
+                if (student.banned) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('loginType');
+                    showLogin();
+                    document.getElementById('errorMessage').style.color = '#dc3545';
+                    document.getElementById('errorMessage').textContent = '🚫 تم تعليق هذا الحساب. تواصل مع المشرف.';
+                    return;
+                }
                 await loadVideoContent(student.videoCode, username, student);
                 showMain();
             } else { showLogin(); }
