@@ -209,6 +209,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             } else { showLogin(); }
         } else { showLogin(); }
     }
+
+    // ── Login ─────────────────────────────────────────────────
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const username = document.getElementById('username').value.trim();
@@ -233,6 +235,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         // 2. Check student codes
         const student = await getStudent(username);
         if (student && student.videoCode) {
+            if (student.banned) {
+                errEl.style.color = '#dc3545';
+                errEl.textContent = '🚫 تم تعليق هذا الحساب. تواصل مع المشرف.';
+                return;
+            }
             errEl.textContent = '';
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
