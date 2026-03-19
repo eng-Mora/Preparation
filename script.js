@@ -412,12 +412,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         </div>`;
         }
 
-        // 3. Build content — pass student + chapter meta for watch logging
-        const _student  = student;
-        const _username = username;
-        const _code     = code;
-        const branches  = BRANCH_CHAPTERS[code];
-        const _sName    = student ? student.name : '';
+        // 3. Build content
+        const branches = BRANCH_CHAPTERS[code];
+
+        if (branches) {
             // CODE1 / CODE2 — two branches with chapters nav each
             html += `
             <div class="branch-selection">
