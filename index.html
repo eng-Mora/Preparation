@@ -3,295 +3,203 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Five Senses — Unit 1 Playground</title>
+<title>Grammar Quest — Tenses & Rules</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg1:#EAF6FF;
-    --bg2:#FDF3FF;
+    --bg1:#EAF6FF; --bg2:#FDF3FF;
     --ink:#1B2A4A;
-    --coral:#FF6B5B;
-    --coral-dk:#E14E3E;
-    --green:#37B27D;
-    --green-dk:#279066;
-    --yellow:#FFC93C;
-    --yellow-dk:#E0A800;
+    --coral:#FF6B5B; --coral-dk:#E14E3E;
+    --green:#37B27D; --green-dk:#279066;
+    --yellow:#FFC93C; --yellow-dk:#E0A800;
     --purple:#7C5CFC;
     --blue:#2FA9E0;
     --white:#FFFFFF;
-    --card-shadow: 0 10px 24px rgba(27,42,74,0.12);
+    --gray:#57628A;
+    --card-shadow:0 10px 24px rgba(27,42,74,0.12);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Nunito',sans-serif;
-    color:var(--ink);
+    font-family:'Nunito',sans-serif; color:var(--ink); min-height:100vh; overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
     background:
       radial-gradient(circle at 10% 10%, #d9f0ff 0%, transparent 40%),
       radial-gradient(circle at 90% 20%, #ffe9f4 0%, transparent 45%),
       radial-gradient(circle at 50% 100%, #eafff2 0%, transparent 50%),
       linear-gradient(180deg, var(--bg1), var(--bg2));
-    min-height:100vh;
-    overflow-x:hidden;
-    -webkit-tap-highlight-color: transparent;
   }
   h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
   button{font-family:'Nunito',sans-serif; cursor:pointer;}
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-  }
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;} }
 
-  /* ---------- floating ambient bubbles ---------- */
   .bubble-field{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;}
-  .bubble{position:absolute; font-size:2.2rem; opacity:.18; animation:float 14s ease-in-out infinite;}
-  @keyframes float{
-    0%{transform:translateY(0) rotate(0deg);}
-    50%{transform:translateY(-40px) rotate(12deg);}
-    100%{transform:translateY(0) rotate(0deg);}
-  }
+  .bubble{position:absolute; font-size:2.1rem; opacity:.16; animation:float 14s ease-in-out infinite;}
+  @keyframes float{0%{transform:translateY(0) rotate(0);}50%{transform:translateY(-40px) rotate(12deg);}100%{transform:translateY(0) rotate(0);}}
 
-  /* ---------- top nav ---------- */
-  .topbar{
-    position:sticky; top:0; z-index:20;
-    background:rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px);
-    box-shadow:0 4px 18px rgba(27,42,74,0.08);
-    padding:10px 12px;
-  }
+  .topbar{position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); box-shadow:0 4px 18px rgba(27,42,74,.08); padding:10px 12px;}
   .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:10px; max-width:900px; margin:0 auto;}
-  .brand{display:flex; align-items:center; gap:8px; font-weight:800; font-size:1.05rem; color:var(--ink); white-space:nowrap;}
+  .brand{display:flex; align-items:center; gap:8px; font-weight:800; font-size:1.05rem; white-space:nowrap;}
   .brand-emoji{font-size:1.5rem; display:inline-block; animation:wiggle 3s ease-in-out infinite;}
   @keyframes wiggle{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(6deg);}}
-  .nav{display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; padding-bottom:2px;}
-  .nav::-webkit-scrollbar{display:none;}
-  .nav-btn{
-    flex:0 0 auto;
-    border:none; border-radius:999px; padding:8px 14px;
-    background:#F2F2F7; color:var(--ink); font-weight:700; font-size:.82rem;
-    transition:transform .15s ease, background .15s ease, color .15s ease;
-    display:flex; align-items:center; gap:5px; white-space:nowrap;
-  }
-  .nav-btn:active{transform:scale(0.94);}
-  .nav-btn.active{background:var(--coral); color:#fff; box-shadow:0 4px 10px rgba(255,107,91,.4);}
+  .backhome{border:none; border-radius:999px; padding:8px 16px; background:#F2F2F7; color:var(--ink); font-weight:800; font-size:.82rem;}
+  .backhome:active{transform:scale(.94);}
 
   main{max-width:900px; margin:0 auto; padding:20px 16px 60px; position:relative; z-index:1;}
-  .screen{display:none; animation:enter .45s ease;}
+  .screen{display:none; animation:enter .4s ease;}
   .screen.active{display:block;}
   @keyframes enter{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
 
-  .tag{
-    display:inline-block; background:var(--purple); color:#fff; font-weight:800;
-    font-size:.72rem; letter-spacing:.06em; padding:5px 12px; border-radius:999px; margin-bottom:10px;
-  }
-  .title{font-size:1.9rem; font-weight:800; margin:0 0 6px; color:var(--ink);}
-  .subtitle{font-size:1rem; color:#57628A; margin:0 0 20px; font-weight:600;}
+  .tag{display:inline-block; color:#fff; font-weight:800; font-size:.72rem; letter-spacing:.06em; padding:5px 12px; border-radius:999px; margin-bottom:10px;}
+  .title{font-size:1.9rem; font-weight:800; margin:0 0 6px;}
+  .subtitle{font-size:1rem; color:var(--gray); margin:0 0 20px; font-weight:600;}
 
-  /* ---------- Home / hero ---------- */
-  .hero{
-    background:linear-gradient(135deg, #1B2A4A, #33437A);
-    border-radius:28px; padding:34px 22px; color:#fff; text-align:center;
-    box-shadow:var(--card-shadow); position:relative; overflow:hidden;
-  }
-  .hero::before, .hero::after{
-    content:""; position:absolute; border-radius:50%; background:rgba(255,107,91,0.35);
-  }
-  .hero::before{width:180px; height:180px; top:-70px; left:-60px;}
-  .hero::after{width:150px; height:150px; bottom:-60px; right:-40px; background:rgba(124,92,252,0.35);}
-  .hero h1{font-size:2.3rem; margin:6px 0 8px; position:relative;}
-  .hero p{font-size:1rem; opacity:.9; margin:0 0 22px; position:relative;}
-  .sense-row{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; position:relative;}
-  .sense-chip{
-    width:70px; height:70px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center;
-    font-size:1.9rem; box-shadow:0 8px 16px rgba(0,0,0,0.25);
-    animation:bob 2.6s ease-in-out infinite;
-  }
-  .sense-chip:nth-child(2){animation-delay:.15s;}
-  .sense-chip:nth-child(3){animation-delay:.3s;}
-  .sense-chip:nth-child(4){animation-delay:.45s;}
-  .sense-chip:nth-child(5){animation-delay:.6s;}
-  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .hero{background:linear-gradient(135deg,#1B2A4A,#33437A); border-radius:28px; padding:34px 22px; color:#fff; text-align:center; box-shadow:var(--card-shadow); position:relative; overflow:hidden;}
+  .hero::before,.hero::after{content:""; position:absolute; border-radius:50%;}
+  .hero::before{width:180px; height:180px; top:-70px; left:-60px; background:rgba(255,107,91,.35);}
+  .hero::after{width:150px; height:150px; bottom:-60px; right:-40px; background:rgba(124,92,252,.35);}
+  .hero h1{font-size:2.1rem; margin:6px 0 8px; position:relative;}
+  .hero p{font-size:1rem; opacity:.9; margin:0; position:relative;}
 
-  .cta-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:22px;}
-  @media(max-width:520px){.cta-grid{grid-template-columns:1fr;}}
-  .cta-card{
-    background:#fff; border-radius:20px; padding:18px; box-shadow:var(--card-shadow); text-align:left;
-    border:none; display:flex; flex-direction:column; gap:6px; transition:transform .15s ease;
-  }
-  .cta-card:active{transform:scale(0.97);}
-  .cta-emoji{font-size:1.8rem;}
-  .cta-title{font-weight:800; font-size:1.05rem;}
-  .cta-desc{font-size:.85rem; color:#57628A; font-weight:600;}
+  .sound-banner{background:#fff; border-radius:20px; padding:16px; text-align:center; box-shadow:var(--card-shadow); margin:18px 0; border:2px dashed #E6D9FF;}
+  .sound-banner p{margin:0 0 10px; font-weight:700; color:var(--gray); font-size:.85rem;}
+  #soundStatus{min-height:1.2em; font-weight:800;}
+  .pulse-btn{animation:pulseGlow 1.8s ease-in-out infinite;}
+  @keyframes pulseGlow{0%,100%{box-shadow:0 6px 14px rgba(124,92,252,.35);}50%{box-shadow:0 6px 22px rgba(124,92,252,.75);}}
 
-  /* ---------- generic card / panel ---------- */
-  .panel{background:#fff; border-radius:22px; padding:20px; box-shadow:var(--card-shadow); margin-bottom:18px;}
-  .hint{background:#FFF3E4; border-radius:14px; padding:12px 14px; font-weight:700; font-size:.85rem; color:var(--coral-dk); margin-bottom:16px;}
-
-  /* ---------- matching game ---------- */
-  .match-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
-  @media(max-width:640px){.match-grid{grid-template-columns:repeat(2,1fr);}}
-  .match-card{
-    aspect-ratio:1/1; border-radius:16px; background:linear-gradient(135deg,var(--blue),var(--purple));
-    display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.6rem;
-    box-shadow:0 6px 14px rgba(0,0,0,0.15); transition:transform .2s ease;
-    padding:6px; text-align:center;
-  }
-  .match-card span{font-size:.68rem; line-height:1.15; display:none; font-weight:700;}
-  .match-card.flipped{background:#fff; color:var(--ink); border:3px solid var(--purple);}
-  .match-card.flipped .icon{display:none;}
-  .match-card.flipped span{display:block;}
-  .match-card.matched{background:linear-gradient(135deg,var(--green),var(--green-dk)); border:none; color:#fff; animation:pop .4s ease;}
-  .match-card.matched span{display:block; color:#fff;}
-  .match-card.wrong{animation:shake .4s ease;}
-  @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.12);}100%{transform:scale(1);}}
-  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
-  .progress-line{display:flex; align-items:center; gap:8px; margin-bottom:14px; font-weight:800; color:var(--ink);}
-  .progress-bar{flex:1; height:10px; background:#EDEDF5; border-radius:999px; overflow:hidden;}
-  .progress-fill{height:100%; background:linear-gradient(90deg,var(--coral),var(--yellow)); width:0%; transition:width .4s ease;}
-
-  /* ---------- vocab flashcards ---------- */
-  .flash-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
-  @media(max-width:640px){.flash-grid{grid-template-columns:repeat(2,1fr);}}
-  .flash-outer{perspective:1000px; height:150px;}
-  .flash-inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; border-radius:16px; box-shadow:0 6px 14px rgba(0,0,0,0.12);}
-  .flash-outer.flipped .flash-inner{transform:rotateY(180deg);}
-  .flash-face{position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center;}
-  .flash-front{background:linear-gradient(135deg,var(--coral),#FF9770); color:#fff;}
-  .flash-front .word{font-weight:800; font-size:1.15rem;}
-  .flash-back{background:#fff; color:var(--ink); transform:rotateY(180deg); border:2px solid #F1E4FF; font-size:.8rem; font-weight:700;}
-  .speak-btn{
-    position:absolute; top:8px; right:8px; background:rgba(255,255,255,0.3); border:none; color:#fff;
-    width:30px; height:30px; border-radius:50%; font-size:.95rem; display:flex; align-items:center; justify-content:center;
-  }
-  .flash-back .speak-btn{background:#F1E4FF; color:var(--purple);}
-
-  /* ---------- routine sequencer ---------- */
-  .pool{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
-  .step-chip{
-    background:#fff; border:2px solid #E6E6F5; border-radius:14px; padding:10px 14px; font-weight:700; font-size:.85rem;
-    box-shadow:0 4px 10px rgba(0,0,0,0.06); transition:transform .15s ease;
-  }
-  .step-chip:active{transform:scale(0.95);}
-  .answer-list{min-height:70px; background:#F7F7FC; border:2px dashed #D9D9EE; border-radius:16px; padding:10px; display:flex; flex-direction:column; gap:8px; margin-bottom:14px;}
-  .answer-item{
-    background:#fff; border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; font-weight:700; font-size:.85rem;
-    box-shadow:0 4px 8px rgba(0,0,0,0.06);
-  }
-  .answer-item .num{width:24px; height:24px; border-radius:50%; background:var(--purple); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.75rem; flex:0 0 auto;}
-  .answer-item.correct{background:#E7F9F0; border:2px solid var(--green);}
-  .answer-item.incorrect{background:#FFEFEE; border:2px solid var(--coral);}
-  .btn-row{display:flex; gap:10px; flex-wrap:wrap;}
-
-  /* ---------- buttons ---------- */
-  .btn{
-    border:none; border-radius:999px; padding:11px 22px; font-weight:800; font-size:.88rem; color:#fff;
-    box-shadow:0 6px 14px rgba(0,0,0,0.15); transition:transform .15s ease;
-  }
-  .btn:active{transform:scale(0.95);}
+  .btn{border:none; border-radius:999px; padding:11px 22px; font-weight:800; font-size:.88rem; color:#fff; box-shadow:0 6px 14px rgba(0,0,0,.15); transition:transform .15s ease;}
+  .btn:active{transform:scale(.95);}
   .btn-coral{background:linear-gradient(135deg,var(--coral),var(--coral-dk));}
-  .btn-green{background:linear-gradient(135deg,var(--green),var(--green-dk));}
   .btn-purple{background:linear-gradient(135deg,var(--purple),#5C3FE0);}
   .btn-outline{background:#fff; color:var(--ink); border:2px solid #E6E6F5; box-shadow:none;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap;}
 
-  /* ---------- story ---------- */
+  .section-label{font-weight:800; font-size:1rem; margin:24px 0 12px; display:flex; align-items:center; gap:8px;}
+  .topic-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media(max-width:640px){.topic-grid{grid-template-columns:repeat(2,1fr);}}
+  .topic-card{
+    background:#fff; border:none; border-radius:18px; padding:16px 10px; text-align:center; box-shadow:var(--card-shadow);
+    display:flex; flex-direction:column; align-items:center; gap:6px; transition:transform .15s ease;
+  }
+  .topic-card:active{transform:scale(.95);}
+  .topic-icon{width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:#fff;}
+  .topic-name{font-weight:800; font-size:.85rem;}
+
+  .panel{background:#fff; border-radius:22px; padding:20px; box-shadow:var(--card-shadow); margin-bottom:18px;}
+
+  /* ---------- formula ---------- */
+  .formula-wrap{text-align:center; margin-bottom:14px;}
+  .formula-chip{
+    display:inline-block; color:#fff; font-weight:800; padding:9px 16px; border-radius:12px; margin:4px;
+    opacity:0; transform:translateY(20px) scale(.7); animation:chipPop .55s cubic-bezier(.22,.85,.35,1.4) forwards;
+    box-shadow:0 6px 14px rgba(0,0,0,.15); font-size:.95rem;
+  }
+  @keyframes chipPop{to{opacity:1; transform:translateY(0) scale(1);}}
+  .formula-example{
+    text-align:center; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:1.15rem; color:var(--ink);
+    background:#F7F7FC; border-radius:14px; padding:14px; margin-top:10px;
+  }
+  .word-pop{display:inline-block; opacity:0; transform:translateY(14px) rotate(-3deg); animation:wordPop .5s cubic-bezier(.2,.9,.3,1.3) forwards;}
+  @keyframes wordPop{to{opacity:1; transform:translateY(0) rotate(0deg);}}
+
+  /* ---------- dialogue ---------- */
   .story-stage{
-    background:linear-gradient(135deg,#FFF6E9,#FFE9EF); border-radius:20px; padding:26px 20px; text-align:center; min-height:220px;
+    background:linear-gradient(135deg,#EAF6FF,#F1E9FF); border-radius:20px; padding:26px 20px; text-align:center; min-height:190px;
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; margin-bottom:14px;
   }
-  .story-emoji{font-size:3.4rem; animation:bob 2.4s ease-in-out infinite;}
-  .story-text{font-size:1.02rem; font-weight:700; color:var(--ink); max-width:520px;}
+  .story-emoji{font-size:3rem; animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .story-text{font-size:1rem; font-weight:700; color:var(--ink); max-width:520px;}
   .story-nav{display:flex; align-items:center; justify-content:space-between; gap:10px;}
   .dots{display:flex; gap:7px; justify-content:center;}
   .dot{width:9px; height:9px; border-radius:50%; background:#E0E0EE;}
   .dot.active{background:var(--coral); width:22px; border-radius:6px; transition:all .25s ease;}
 
-  .tf-q{background:#fff; border-radius:16px; padding:14px 16px; margin-bottom:12px; box-shadow:0 4px 10px rgba(0,0,0,0.06);}
-  .tf-q p{font-weight:700; margin:0 0 10px;}
-  .tf-btns{display:flex; gap:10px;}
-  .tf-btn{flex:1; border:2px solid #E6E6F5; background:#fff; border-radius:12px; padding:9px; font-weight:800; color:var(--ink);}
-  .tf-btn.correct{background:#E7F9F0; border-color:var(--green); color:var(--green-dk);}
-  .tf-btn.wrong{background:#FFEFEE; border-color:var(--coral); color:var(--coral-dk);}
-
-  /* ---------- vowel game ---------- */
-  .vowel-card{
+  /* ---------- choice cards (quiz) ---------- */
+  .choice-card{
     background:#fff; border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:12px; margin-bottom:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.06);
+    box-shadow:0 4px 10px rgba(0,0,0,.06); flex-wrap:wrap;
   }
-  .vowel-word{font-weight:800; font-size:1.15rem; flex:1;}
-  .vowel-word.long-prompt{font-size:.92rem; font-weight:700; line-height:1.35;}
+  .choice-prompt{font-weight:700; font-size:.92rem; flex:1; min-width:180px; line-height:1.35;}
+  .choice-wrap{display:flex; gap:6px; flex-wrap:wrap;}
+  .choice-wrap button{border:2px solid #E6E6F5; background:#fff; border-radius:10px; padding:7px 12px; font-weight:800; font-size:.78rem; color:var(--ink);}
+  .choice-card.answered.correct{border:2px solid var(--green); background:#F3FCF7;}
+  .choice-card.answered.wrong{border:2px solid var(--coral); background:#FFF6F5;}
+  .choice-wrap button.pick-correct{background:#E7F9F0; border-color:var(--green); color:var(--green-dk);}
+  .choice-wrap button.pick-wrong{background:#FFEFEE; border-color:var(--coral); color:var(--coral-dk);}
 
-  /* ---------- verb machine (animated -s / -es / -ies) ---------- */
-  .vm-panel{background:linear-gradient(135deg,#FBF7FF,#FFF3F1);}
-  .verb-display{
-    text-align:center; font-family:'Baloo 2', sans-serif; font-weight:800;
-    font-size:2.6rem; color:var(--ink); min-height:80px; display:flex; align-items:center; justify-content:center;
-    gap:2px; flex-wrap:wrap;
-  }
-  .verb-suffix{
-    display:inline-block; color:#fff; background:var(--coral); border-radius:10px; padding:0 10px;
-    opacity:0; transform:translateX(90px) translateY(-40px) rotate(35deg) scale(0.4);
-    box-shadow:0 6px 14px rgba(255,107,91,0.5);
-  }
-  .verb-suffix.flying{ animation: flyInSuffix .7s cubic-bezier(.22,.85,.35,1.4) forwards; }
-  @keyframes flyInSuffix{
-    0%{ opacity:0; transform:translateX(90px) translateY(-40px) rotate(35deg) scale(0.4); }
-    55%{ opacity:1; transform:translateX(-8px) translateY(6px) rotate(-10deg) scale(1.35); }
-    75%{ transform:translateX(3px) translateY(-2px) rotate(4deg) scale(0.95); }
-    100%{ opacity:1; transform:translateX(0) translateY(0) rotate(0deg) scale(1); }
-  }
-  .vm-note{ text-align:center; font-weight:800; color:#57628A; min-height:1.5em; margin:6px 0 14px; font-size:.92rem;}
-  .subject-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-  .subject-row button{
-    border:2px solid #E6E6F5; background:#fff; border-radius:12px; padding:10px 18px;
-    font-weight:800; font-size:.95rem; color:var(--ink); transition:transform .15s ease;
-  }
-  .subject-row button:active{ transform:scale(0.92); }
-  .subject-row button.active{ color:#fff; box-shadow:0 6px 12px rgba(0,0,0,0.18); }
-  .mini-speak{background:#EAF6FF; border:none; width:36px; height:36px; border-radius:50%; font-size:1rem; color:var(--blue);}
-  .vowel-choice{display:flex; gap:6px;}
-  .vowel-choice button{border:2px solid #E6E6F5; background:#fff; border-radius:10px; padding:7px 10px; font-weight:800; font-size:.75rem; color:var(--ink);}
-  .vowel-card.answered.correct{border:2px solid var(--green); background:#F3FCF7;}
-  .vowel-card.answered.wrong{border:2px solid var(--coral); background:#FFF6F5;}
+  .progress-line{display:flex; align-items:center; gap:8px; margin-bottom:14px; font-weight:800;}
+  .progress-bar{flex:1; height:10px; background:#EDEDF5; border-radius:999px; overflow:hidden;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--coral),var(--yellow)); width:0%; transition:width .4s ease;}
 
-  /* ---------- quiz ---------- */
-  .quiz-progress{font-weight:800; color:#57628A; margin-bottom:10px; font-size:.85rem;}
-  .quiz-q{font-size:1.15rem; font-weight:800; margin-bottom:16px;}
-  .opt{
-    display:block; width:100%; text-align:left; background:#fff; border:2px solid #E6E6F5; border-radius:14px;
-    padding:13px 16px; margin-bottom:10px; font-weight:700; font-size:.92rem; color:var(--ink);
-  }
+  /* ---------- sequential quiz (mixed challenge) ---------- */
+  .quiz-progress{font-weight:800; color:var(--gray); margin-bottom:10px; font-size:.85rem;}
+  .quiz-q{font-size:1.1rem; font-weight:800; margin-bottom:16px;}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:2px solid #E6E6F5; border-radius:14px; padding:13px 16px; margin-bottom:10px; font-weight:700; font-size:.92rem; color:var(--ink);}
   .opt.correct{background:#E7F9F0; border-color:var(--green); color:var(--green-dk);}
   .opt.wrong{background:#FFEFEE; border-color:var(--coral); color:var(--coral-dk);}
-  .opt:disabled{opacity:0.85;}
-
+  .opt:disabled{opacity:.85;}
   .score-screen{text-align:center; padding:10px;}
-  .score-num{font-size:3.4rem; font-weight:800; color:var(--coral); margin:6px 0;}
+  .score-num{font-size:3.2rem; font-weight:800; color:var(--coral); margin:6px 0;}
   .stars{font-size:2rem; margin-bottom:10px;}
 
-  /* confetti */
-  .confetti-piece{
-    position:fixed; top:-10px; width:9px; height:14px; z-index:50; pointer-events:none;
-    animation:fall linear forwards;
+  .confetti-piece{position:fixed; top:-10px; width:9px; height:14px; z-index:50; pointer-events:none; animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:.9;}}
+
+  /* ---------- grammar machines ---------- */
+  .machine-panel{background:linear-gradient(135deg,#FBF7FF,#FFF3F1); border-radius:18px; padding:18px; text-align:center;}
+  .verb-display{
+    font-family:'Baloo 2', sans-serif; font-weight:800; font-size:1.9rem; color:var(--ink);
+    min-height:64px; display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap;
   }
-  @keyframes fall{
-    to{ transform:translateY(110vh) rotate(540deg); opacity:0.9;}
+  .m-piece{
+    display:inline-block; color:#fff; border-radius:10px; padding:2px 12px;
+    box-shadow:0 6px 14px rgba(0,0,0,.15);
   }
+  .m-piece.aux{background:var(--blue);}
+  .m-piece.suffix{background:var(--coral);}
+  .m-piece.connector{background:var(--purple);}
+  .m-piece.flying{
+    opacity:0; transform:translateX(90px) translateY(-40px) rotate(35deg) scale(.4);
+    animation:flyIn .7s cubic-bezier(.22,.85,.35,1.4) forwards;
+  }
+  @keyframes flyIn{
+    0%{opacity:0; transform:translateX(90px) translateY(-40px) rotate(35deg) scale(.4);}
+    55%{opacity:1; transform:translateX(-8px) translateY(6px) rotate(-10deg) scale(1.3);}
+    75%{transform:translateX(3px) translateY(-2px) rotate(4deg) scale(.95);}
+    100%{opacity:1; transform:translateX(0) translateY(0) rotate(0) scale(1);}
+  }
+  .m-word{ color:var(--ink); }
+  .m-word.morph-out{ animation:morphOut .22s ease forwards; }
+  .m-word.morph-in{ animation:morphIn .32s ease; }
+  @keyframes morphOut{to{opacity:0; transform:scale(.7) rotate(-10deg);}}
+  @keyframes morphIn{from{opacity:0; transform:scale(.6) rotate(10deg);} to{opacity:1; transform:scale(1) rotate(0);}}
+  .m-note{ text-align:center; font-weight:800; color:var(--gray); min-height:1.5em; margin:8px 0 14px; font-size:.9rem;}
+  .m-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:6px;}
+  .m-row button{
+    border:2px solid #E6E6F5; background:#fff; border-radius:12px; padding:10px 16px;
+    font-weight:800; font-size:.9rem; color:var(--ink); transition:transform .15s ease;
+  }
+  .m-row button:active{ transform:scale(.92); }
+  .m-row button.active{ color:#fff; box-shadow:0 6px 12px rgba(0,0,0,.18); }
+
+  /* connector machine (after/before, while) */
+  .action-row{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin:14px 0; transition:all .4s ease; }
+  .action-block{
+    background:#fff; border:2px solid #E6E6F5; border-radius:14px; padding:12px 16px; font-weight:700; font-size:.92rem;
+    color:var(--ink); min-width:150px; box-shadow:0 4px 10px rgba(0,0,0,.06); transition:transform .4s ease, order .4s ease;
+  }
+  .action-block.pulse{ animation:blockPulse 1s ease-in-out infinite; border-color:var(--purple); background:#F3EFFF; }
+  @keyframes blockPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .connector-chip{
+    display:inline-block; background:var(--purple); color:#fff; font-weight:800; border-radius:10px; padding:6px 14px;
+    box-shadow:0 6px 14px rgba(124,92,252,.4);
+    opacity:0; transform:scale(.4) rotate(-20deg); animation:connIn .5s cubic-bezier(.22,.85,.35,1.4) forwards;
+  }
+  @keyframes connIn{to{opacity:1; transform:scale(1) rotate(0);}}
 
   footer{text-align:center; font-size:.78rem; color:#8892B0; font-weight:700; padding:20px 0 6px;}
-
-  /* ---------- sound banner ---------- */
-  .sound-banner{
-    background:#fff; border-radius:20px; padding:16px; text-align:center; box-shadow:var(--card-shadow);
-    margin-bottom:18px; border:2px dashed #E6D9FF;
-  }
-  .sound-banner p{margin:0 0 10px; font-weight:700; color:#57628A; font-size:.85rem;}
-  #soundStatus{min-height:1.2em;}
-  .pulse-btn{animation:pulseGlow 1.8s ease-in-out infinite;}
-  @keyframes pulseGlow{0%,100%{box-shadow:0 6px 14px rgba(124,92,252,.35);}50%{box-shadow:0 6px 22px rgba(124,92,252,.75);}}
-
-  /* ---------- moving / animated text ---------- */
-  .word-pop{display:inline-block; opacity:0; transform:translateY(16px) rotate(-3deg); animation:wordPop .5s cubic-bezier(.2,.9,.3,1.3) forwards;}
-  @keyframes wordPop{to{opacity:1; transform:translateY(0) rotate(0deg);}}
 </style>
 </head>
 <body>
@@ -300,19 +208,8 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand"><span class="brand-emoji">🧠</span> Sense Lab</div>
-    <nav class="nav" id="nav">
-      <button class="nav-btn active" data-screen="home">🏠 Home</button>
-      <button class="nav-btn" data-screen="match">👀 Match</button>
-      <button class="nav-btn" data-screen="listen">🎧 Listen</button>
-      <button class="nav-btn" data-screen="vocab">🗂️ Words</button>
-      <button class="nav-btn" data-screen="grammar">📝 Grammar</button>
-      <button class="nav-btn" data-screen="routine">⏰ Routine</button>
-      <button class="nav-btn" data-screen="story">📖 Story</button>
-      <button class="nav-btn" data-screen="vowels">🔤 Sounds</button>
-      <button class="nav-btn" data-screen="create">🎤 Create</button>
-      <button class="nav-btn" data-screen="quiz">🏆 Quiz</button>
-    </nav>
+    <div class="brand"><span class="brand-emoji">🧩</span> Grammar Quest</div>
+    <button class="backhome" id="backHomeBtn" onclick="showScreen('home')" style="display:none;">⬅ All Topics</button>
   </div>
 </div>
 
@@ -321,311 +218,82 @@
   <!-- HOME -->
   <section class="screen active" id="screen-home">
     <div class="hero">
-      <div class="tag" style="background:#FFC93C;color:#1B2A4A;">UNIT 1 · PRIMARY 4</div>
-      <h1 id="heroTitle">The Five Senses Playground</h1>
-      <p>Play, listen, and move through fun games to master Unit 1! 🎮🔊</p>
-      <div class="sense-row">
-        <div class="sense-chip">👀</div>
-        <div class="sense-chip">👂</div>
-        <div class="sense-chip">👃</div>
-        <div class="sense-chip">👅</div>
-        <div class="sense-chip">✋</div>
-      </div>
+      <div class="tag" style="background:var(--yellow); color:#1B2A4A;">GRAMMAR PLAYGROUND</div>
+      <h1>Tenses &amp; Rules Quest</h1>
+      <p>Watch Omar &amp; Reem talk, see the rule fly together, then play the game! 🎮</p>
     </div>
 
     <div class="sound-banner">
-      <p>🔊 Tap once to turn on sound &amp; voices for all the games below</p>
+      <p>🔊 Tap once to turn on sound &amp; voices for every topic</p>
       <button class="btn btn-purple pulse-btn" id="enableSoundBtn">🔊 Tap to Enable Sound</button>
       <div id="soundStatus"></div>
     </div>
 
-    <div class="cta-grid">
-      <button class="cta-card" onclick="showScreen('match')">
-        <span class="cta-emoji">🧩</span>
-        <span class="cta-title">Match the Senses</span>
-        <span class="cta-desc">Memory game — match each sense to what it does.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('listen')">
-        <span class="cta-emoji">🎧</span>
-        <span class="cta-title">Listen: Ms. Mona</span>
-        <span class="cta-desc">Follow the class dialogue & answer questions.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('vocab')">
-        <span class="cta-emoji">🗂️</span>
-        <span class="cta-title">Flashcards</span>
-        <span class="cta-desc">Flip cards & hear new words spoken aloud.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('grammar')">
-        <span class="cta-emoji">📝</span>
-        <span class="cta-title">Present Simple</span>
-        <span class="cta-desc">Pick the right verb & fix the mistakes.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('routine')">
-        <span class="cta-emoji">⏰</span>
-        <span class="cta-title">Healthy Routine</span>
-        <span class="cta-desc">Put Sarah's healthy day in the right order.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('story')">
-        <span class="cta-emoji">📖</span>
-        <span class="cta-title">Goha's Great Meal</span>
-        <span class="cta-desc">Read the story, then answer True or False.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('vowels')">
-        <span class="cta-emoji">🔤</span>
-        <span class="cta-title">Vowel Sounds</span>
-        <span class="cta-desc">Listen and sort — short vowel or long vowel?</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('create')">
-        <span class="cta-emoji">🎤</span>
-        <span class="cta-title">Create & Reflect</span>
-        <span class="cta-desc">Plan a presentation & write your healthy habits.</span>
-      </button>
-      <button class="cta-card" onclick="showScreen('quiz')">
-        <span class="cta-emoji">🏆</span>
-        <span class="cta-title">Final Quiz</span>
-        <span class="cta-desc">6 questions — beat your best score!</span>
-      </button>
-    </div>
+    <div class="section-label">☀️ Present Tenses</div>
+    <div class="topic-grid" id="presentGrid"></div>
+
+    <div class="section-label">🌙 Past Tenses</div>
+    <div class="topic-grid" id="pastGrid"></div>
+
+    <div class="section-label">📏 Grammar Rules</div>
+    <div class="topic-grid" id="ruleGrid"></div>
+
+    <div class="section-label">🏆 Challenge</div>
+    <div class="topic-grid" id="challengeGrid"></div>
   </section>
 
-  <!-- MATCH GAME -->
-  <section class="screen" id="screen-match">
-    <div class="tag" style="background:var(--blue);">MINI-GAME</div>
-    <h2 class="title">Match the Senses 🧩</h2>
-    <p class="subtitle">Tap two cards — match the sense icon to what it does!</p>
+  <!-- TOPIC (dynamic) -->
+  <section class="screen" id="screen-topic">
+    <div class="tag" id="topicTag">TOPIC</div>
+    <h2 class="title" id="topicTitle">Topic</h2>
+    <p class="subtitle" id="topicSubtitle">subtitle</p>
+
     <div class="panel">
-      <div class="progress-line">
-        <span id="matchScoreLabel">0 / 5 matched</span>
-        <div class="progress-bar"><div class="progress-fill" id="matchProgress"></div></div>
-      </div>
-      <div class="match-grid" id="matchGrid"></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-purple" onclick="initMatchGame()">🔄 Shuffle & Restart</button>
-    </div>
-  </section>
-
-  <!-- LISTEN: MS. MONA DIALOGUE -->
-  <section class="screen" id="screen-listen">
-    <div class="tag" style="background:var(--blue);">LISTENING</div>
-    <h2 class="title">Let's Talk About Our Senses 🎧</h2>
-    <p class="subtitle">Follow along with Ms. Mona and the class, then answer the questions.</p>
-    <div class="panel">
-      <div class="story-stage" style="background:linear-gradient(135deg,#EAF6FF,#F1E9FF);">
-        <div class="story-emoji" id="dialogEmoji">👩‍🏫</div>
-        <div class="story-text" id="dialogText"></div>
-        <button class="btn btn-outline" onclick="speak(listenDialogue[dialogIndex].line); playClick();">🔊 Play This Line</button>
-      </div>
-      <div class="story-nav">
-        <button class="btn btn-outline" id="dialogPrev" onclick="dialogStep(-1)">⬅ Back</button>
-        <div class="dots" id="dialogDots"></div>
-        <button class="btn btn-coral" id="dialogNext" onclick="dialogStep(1)">Next ➜</button>
-      </div>
-    </div>
-    <div class="panel" id="listenQuizPanel" style="display:none;"></div>
-  </section>
-
-  <!-- VOCAB FLASHCARDS -->
-  <section class="screen" id="screen-vocab">
-    <div class="tag" style="background:var(--coral);">VOCABULARY</div>
-    <h2 class="title">Flip & Listen 🗂️</h2>
-    <p class="subtitle">Tap a card to see the meaning. Tap 🔊 to hear it spoken!</p>
-    <div class="flash-grid" id="flashGrid"></div>
-  </section>
-
-  <!-- GRAMMAR: PRESENT SIMPLE -->
-  <section class="screen" id="screen-grammar">
-    <div class="tag" style="background:var(--purple);">LANGUAGE IN USE</div>
-    <h2 class="title">Present Simple Practice 📝</h2>
-    <p class="subtitle">I / you / we / they + verb  •  he / she / it + verb-s/-es/-ies</p>
-
-    <div class="panel vm-panel">
-      <h3 style="margin-top:0;">✨ Watch the -s Fly In!</h3>
-      <p class="hint" style="margin-bottom:18px;">Tap a subject and watch what happens to the verb!</p>
-
-      <div class="verb-display">
-        <span id="verbBase">play</span><span id="verbSuffix" class="verb-suffix"></span>
-      </div>
-      <div id="verbMachineNote" class="vm-note">Pick a subject to see what happens! 👆</div>
-
-      <div class="subject-row" id="subjectRow">
-        <button data-subj="i">I</button>
-        <button data-subj="you">You</button>
-        <button data-subj="we">We</button>
-        <button data-subj="they">They</button>
-        <button data-subj="he">He</button>
-        <button data-subj="she">She</button>
-        <button data-subj="it">It</button>
-      </div>
-
-      <div class="btn-row" style="justify-content:center; margin-top:16px;">
-        <button class="btn btn-purple" onclick="nextVerb()">🔀 Try Another Verb</button>
-      </div>
+      <h3 style="margin-top:0;">✨ Play With the Rule</h3>
+      <div class="machine-panel" id="machineArea"></div>
     </div>
 
     <div class="panel">
-      <h3 style="margin-top:0;">Choose the Correct Verb</h3>
-      <div class="progress-line">
-        <span id="grammarScoreLabel">Score: 0 / 6</span>
-        <div class="progress-bar"><div class="progress-fill" id="grammarProgress"></div></div>
-      </div>
-      <div id="grammarList"></div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0;">Fix the Mistake</h3>
-      <div class="progress-line">
-        <span id="fixScoreLabel">Score: 0 / 4</span>
-        <div class="progress-bar"><div class="progress-fill" id="fixProgress"></div></div>
-      </div>
-      <div id="fixList"></div>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-purple" onclick="initGrammarGame(); initFixGame();">🔄 Restart Both</button>
-    </div>
-  </section>
-
-  <!-- ROUTINE SEQUENCER -->
-  <section class="screen" id="screen-routine">
-    <div class="tag" style="background:var(--green);">SEQUENCING</div>
-    <h2 class="title">Sarah's Healthy Day ⏰</h2>
-    <p class="subtitle">Tap the steps in the correct order, from morning to night.</p>
-    <div class="panel">
-      <div class="hint">👉 Tap a step below to add it to your day. Then hit "Check My Order".</div>
-      <div class="answer-list" id="answerList"><span style="color:#AAB0C8; font-weight:700; padding:14px;">Your order will appear here...</span></div>
-      <div class="pool" id="stepPool"></div>
-      <div class="btn-row">
-        <button class="btn btn-coral" id="checkRoutineBtn" onclick="checkRoutine()">✅ Check My Order</button>
-        <button class="btn btn-outline" onclick="initRoutineGame()">🔄 Reset</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- STORY -->
-  <section class="screen" id="screen-story">
-    <div class="tag" style="background:var(--yellow);color:#1B2A4A;">STORY TIME</div>
-    <h2 class="title">Goha's Great Meal 📖</h2>
-    <p class="subtitle">A clever old tale about sharing.</p>
-    <div class="panel">
+      <h3 style="margin-top:0;">💬 Omar &amp; Reem Talk</h3>
       <div class="story-stage">
-        <div class="story-emoji" id="storyEmoji">🚶</div>
-        <div class="story-text" id="storyText"></div>
-        <button class="btn btn-outline" onclick="speak(storySlides[storyIndex].text); playClick();">🔊 Read Aloud</button>
+        <div class="story-emoji" id="dEmoji">🧒</div>
+        <div class="story-text" id="dText"></div>
+        <button class="btn btn-outline" onclick="speak(currentTopic.dialogue[dIdx].line); playClick();">🔊 Play This Line</button>
       </div>
       <div class="story-nav">
-        <button class="btn btn-outline" id="storyPrev" onclick="storyStep(-1)">⬅ Back</button>
-        <div class="dots" id="storyDots"></div>
-        <button class="btn btn-coral" id="storyNext" onclick="storyStep(1)">Next ➜</button>
+        <button class="btn btn-outline" id="dPrev" onclick="dStep(-1)">⬅ Back</button>
+        <div class="dots" id="dDots"></div>
+        <button class="btn btn-coral" id="dNext" onclick="dStep(1)">Next ➜</button>
       </div>
     </div>
-    <div class="panel" id="storyQuizPanel" style="display:none;">
-      <h3 style="margin-top:0;">Quick Check: True or False? 🤔</h3>
-      <div id="tfContainer"></div>
-      <div id="tfResult" style="font-weight:800; text-align:center; margin-top:8px;"></div>
-    </div>
-  </section>
 
-  <!-- VOWEL GAME -->
-  <section class="screen" id="screen-vowels">
-    <div class="tag" style="background:var(--purple);">PRONUNCIATION</div>
-    <h2 class="title">Short or Long Vowel? 🔤</h2>
-    <p class="subtitle">Tap 🔊 to hear the word, then choose Short or Long.</p>
     <div class="panel">
+      <h3 style="margin-top:0;">🎮 Practice Time</h3>
       <div class="progress-line">
-        <span id="vowelScoreLabel">Score: 0 / 8</span>
-        <div class="progress-bar"><div class="progress-fill" id="vowelProgress"></div></div>
+        <span id="topicScoreLabel">Score: 0 / 0</span>
+        <div class="progress-bar"><div class="progress-fill" id="topicProgress"></div></div>
       </div>
-      <div id="vowelList"></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-purple" onclick="initVowelGame()">🔄 Play Again</button>
-    </div>
-  </section>
-
-  <!-- CREATE & REFLECT (Lesson 5 + Quick Review) -->
-  <section class="screen" id="screen-create">
-    <div class="tag" style="background:var(--green);">THINK &amp; CREATE</div>
-    <h2 class="title">Create &amp; Reflect 🎤</h2>
-    <p class="subtitle">Complete the review, plan a mini presentation, and reflect on your habits.</p>
-
-    <div class="panel">
-      <h3 style="margin-top:0;">Quick Review: Complete the Sentences</h3>
-      <p class="hint" style="margin-bottom:14px;">✏️ Type your own answer, then check the sample ideas.</p>
-      <div id="sentenceInputs">
-        <div class="pool" style="flex-direction:column; align-items:stretch; gap:8px;">
-          <div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:800; min-width:150px;">I use my eyes to</span><input type="text" placeholder="..." style="flex:1; padding:9px 12px; border-radius:10px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;"></div>
-          <div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:800; min-width:150px;">I use my ears to</span><input type="text" placeholder="..." style="flex:1; padding:9px 12px; border-radius:10px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;"></div>
-          <div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:800; min-width:150px;">I use my nose to</span><input type="text" placeholder="..." style="flex:1; padding:9px 12px; border-radius:10px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;"></div>
-          <div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:800; min-width:150px;">I use my tongue to</span><input type="text" placeholder="..." style="flex:1; padding:9px 12px; border-radius:10px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;"></div>
-          <div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:800; min-width:150px;">I use my hands to</span><input type="text" placeholder="..." style="flex:1; padding:9px 12px; border-radius:10px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;"></div>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-outline" onclick="toggleSamples()">💡 Show / Hide Sample Answers</button>
-      </div>
-      <div id="sampleAnswers" style="display:none; margin-top:12px; background:#F7F7FC; border-radius:14px; padding:14px; font-weight:700; font-size:.85rem;">
-        1. I use my <b>eyes</b> to see colors and shapes.<br>
-        2. I use my <b>ears</b> to hear music and sounds.<br>
-        3. I use my <b>nose</b> to smell things around me.<br>
-        4. I use my <b>tongue</b> to taste food.<br>
-        5. I use my <b>hands</b> to touch and feel objects.
-      </div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0;">Write 3 Healthy Habits You Do Every Day</h3>
-      <div class="pool" style="flex-direction:column; align-items:stretch;">
-        <input type="text" id="habit1" placeholder="1. e.g. I drink water every morning." style="padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:8px;">
-        <input type="text" id="habit2" placeholder="2. e.g. I brush my teeth twice a day." style="padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:8px;">
-        <input type="text" id="habit3" placeholder="3. e.g. I sleep 9 hours every night." style="padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700;">
-      </div>
-      <div class="btn-row" style="margin-top:12px;">
-        <button class="btn btn-green" onclick="checkHabits()">🔊 Read My Habits Aloud</button>
-      </div>
-      <div id="habitsMsg" style="font-weight:800; margin-top:10px;"></div>
-    </div>
-
-    <div class="panel">
-      <h3 style="margin-top:0;">Lesson 5: Plan a Presentation</h3>
-      <p class="hint" style="margin-bottom:14px;">🎤 Prepare a short talk about healthy eating habits.</p>
-      <input type="text" id="presTitle" placeholder="Presentation title, e.g. My Healthy Eating Habits" style="width:100%; padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:8px;">
-      <input type="text" id="presPoint1" placeholder="Point 1, e.g. I eat fruit and vegetables every day." style="width:100%; padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:8px;">
-      <input type="text" id="presPoint2" placeholder="Point 2, e.g. I drink water instead of sweets." style="width:100%; padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:8px;">
-      <input type="text" id="presPoint3" placeholder="Point 3, e.g. I sleep early to stay healthy." style="width:100%; padding:10px 14px; border-radius:12px; border:2px solid #E6E6F5; font-family:'Nunito',sans-serif; font-weight:700; margin-bottom:14px;">
-
-      <div class="hint" style="background:#EAF6EC; color:#279066;">
-        ✅ Make sure to: speak clearly &amp; slowly · use a clear heading · add pictures · keep text simple · speak for 3–5 minutes
-      </div>
-
-      <div class="btn-row" style="margin-bottom:14px;">
-        <button class="btn btn-coral" onclick="practiceReadPresentation()">🔊 Practice Reading My Presentation</button>
-      </div>
-
-      <div style="text-align:center;">
-        <p style="font-weight:800; margin-bottom:6px;">Rate your own presentation:</p>
-        <div style="font-size:1.8rem; letter-spacing:4px;">
-          <span id="presStar1" onclick="setPresRating(1)" style="cursor:pointer;">☆</span><span id="presStar2" onclick="setPresRating(2)" style="cursor:pointer;">☆</span><span id="presStar3" onclick="setPresRating(3)" style="cursor:pointer;">☆</span><span id="presStar4" onclick="setPresRating(4)" style="cursor:pointer;">☆</span><span id="presStar5" onclick="setPresRating(5)" style="cursor:pointer;">☆</span>
-        </div>
-        <p id="presRatingMsg" style="font-weight:700; color:#57628A;"></p>
+      <div id="gameArea"></div>
+      <div class="btn-row" style="margin-top:6px;">
+        <button class="btn btn-purple" onclick="loadTopic(currentTopic.id)">🔄 Restart This Topic</button>
       </div>
     </div>
   </section>
 
-  <!-- FINAL QUIZ -->
-  <section class="screen" id="screen-quiz">
+  <!-- MIXED CHALLENGE -->
+  <section class="screen" id="screen-challenge">
     <div class="tag" style="background:var(--coral);">FINAL CHALLENGE</div>
-    <h2 class="title">Unit 1 Quiz 🏆</h2>
-    <p class="subtitle">Show what you've learned about the five senses!</p>
-    <div class="panel" id="quizPanel"></div>
+    <h2 class="title">Mixed Grammar Challenge 🏆</h2>
+    <p class="subtitle">One question from every topic — can you get them all?</p>
+    <div class="panel" id="challengePanel"></div>
   </section>
 
 </main>
 
-<footer>Unit 1 · The Five Senses · Primary 4 · Term 1</footer>
+<footer>Grammar Quest · Present &amp; Past Tenses · Grammar Rules</footer>
 
 <script>
-/* ================= UTIL: SOUND ================= */
+/* ================= SOUND UTILITIES ================= */
 let audioCtx;
 function ctx(){ if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } return audioCtx; }
 function resumeAudioCtx(){ try{ const c = ctx(); if(c.state==='suspended'){ c.resume(); } }catch(e){} }
@@ -636,7 +304,7 @@ function tone(freq, start, dur, type){
   const c = ctx();
   const o = c.createOscillator();
   const g = c.createGain();
-  o.type = type||"sine";
+  o.type = type || "sine";
   o.frequency.value = freq;
   g.gain.value = 0.08;
   o.connect(g); g.connect(c.destination);
@@ -644,78 +312,20 @@ function tone(freq, start, dur, type){
   g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime+start+dur);
   o.stop(c.currentTime+start+dur+0.02);
 }
-function playCorrect(){ try{ tone(523.25,0,0.12); tone(659.25,0.12,0.12); tone(783.99,0.24,0.22);}catch(e){} }
-function playWrong(){ try{ tone(180,0,0.18,"sawtooth"); tone(140,0.15,0.22,"sawtooth"); }catch(e){} }
-function playClick(){ try{ tone(400,0,0.05); }catch(e){} }
-function playWin(){ try{ [523,659,784,1046].forEach((f,i)=>tone(f,i*0.13,0.18)); }catch(e){} }
+function playCorrect(){ try{ tone(523.25,0,.12); tone(659.25,.12,.12); tone(783.99,.24,.22);}catch(e){} }
+function playWrong(){ try{ tone(180,0,.18,"sawtooth"); tone(140,.15,.22,"sawtooth"); }catch(e){} }
+function playClick(){ try{ tone(400,0,.05); }catch(e){} }
+function playWin(){ try{ [523,659,784,1046].forEach((f,i)=>tone(f,i*0.13,.18)); }catch(e){} }
 
 function speak(text){
   try{
     if(!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    u.rate = 0.85;
-    u.pitch = 1.05;
+    u.lang='en-US'; u.rate=0.88; u.pitch=1.05;
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
-
-/* ---------- animated / moving text ---------- */
-function animateText(el, text){
-  el.innerHTML = '';
-  text.split(' ').forEach((word, i)=>{
-    const span = document.createElement('span');
-    span.className = 'word-pop';
-    span.style.animationDelay = (i*0.045)+'s';
-    span.textContent = word + '\u00A0';
-    el.appendChild(span);
-  });
-}
-
-/* ---------- sound enable button ---------- */
-let soundUnlocked = false;
-window.addEventListener('DOMContentLoaded', ()=>{
-  const enableBtn = document.getElementById('enableSoundBtn');
-  if(!enableBtn) return;
-  enableBtn.addEventListener('click', ()=>{
-    resumeAudioCtx();
-    tone(659.25, 0, 0.15);
-    tone(880, 0.15, 0.15);
-    const status = document.getElementById('soundStatus');
-    status.style.fontWeight = '800';
-    if('speechSynthesis' in window){
-      try{
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance("Sound is on! Let's play!");
-        u.lang = 'en-US'; u.rate = 0.9;
-        u.onstart = ()=>{
-          soundUnlocked = true;
-          status.textContent = '✅ Voice & sound enabled — enjoy the games!';
-          status.style.color = '#279066';
-          enableBtn.classList.remove('pulse-btn');
-        };
-        u.onerror = ()=>{
-          status.textContent = "⚠️ Beeps work, but this browser can't speak words. Try opening the page in Chrome or Safari for full narration.";
-          status.style.color = '#E14E3E';
-        };
-        window.speechSynthesis.speak(u);
-        setTimeout(()=>{
-          if(!soundUnlocked){
-            status.textContent = "⚠️ Beeps work, but voice narration isn't available here. Try opening in Chrome or Safari for full narration.";
-            status.style.color = '#E14E3E';
-          }
-        }, 1400);
-      }catch(e){
-        status.textContent = '⚠️ Beeps work, but voice narration failed to start.';
-        status.style.color = '#E14E3E';
-      }
-    } else {
-      status.textContent = "⚠️ This browser doesn't support voice narration — sound effects will still work. Try Chrome or Safari for full narration.";
-      status.style.color = '#E14E3E';
-    }
-  });
-});
 
 /* ================= CONFETTI ================= */
 function confettiBurst(count){
@@ -736,7 +346,7 @@ function confettiBurst(count){
 /* ================= AMBIENT BUBBLES ================= */
 (function bubbles(){
   const field = document.getElementById('bubbleField');
-  const emojis = ["👀","👂","👃","👅","✋","⭐","🎈"];
+  const emojis = ["📖","✏️","🔤","⭐","💬","🎈","📝"];
   for(let i=0;i<14;i++){
     const b = document.createElement('div');
     b.className='bubble';
@@ -753,25 +363,60 @@ function confettiBurst(count){
 function showScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.screen===name));
+  document.getElementById('backHomeBtn').style.display = name==='home' ? 'none' : 'inline-block';
   window.scrollTo({top:0, behavior:'smooth'});
   playClick();
 }
-document.getElementById('nav').addEventListener('click', (e)=>{
-  const btn = e.target.closest('.nav-btn');
-  if(btn) showScreen(btn.dataset.screen);
+
+/* ================= SOUND ENABLE BANNER ================= */
+window.addEventListener('DOMContentLoaded', ()=>{
+  const enableBtn = document.getElementById('enableSoundBtn');
+  enableBtn.addEventListener('click', ()=>{
+    resumeAudioCtx();
+    tone(659.25,0,.15); tone(880,.15,.15);
+    const status = document.getElementById('soundStatus');
+    if('speechSynthesis' in window){
+      try{
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance("Sound is on! Let's play!");
+        u.lang='en-US'; u.rate=0.9;
+        let unlocked = false;
+        u.onstart = ()=>{
+          unlocked = true;
+          status.textContent = '✅ Voice & sound enabled — enjoy Grammar Quest!';
+          status.style.color = '#279066';
+          enableBtn.classList.remove('pulse-btn');
+        };
+        u.onerror = ()=>{
+          status.textContent = "⚠️ Beeps work, but this browser can't speak words. Try Chrome or Safari.";
+          status.style.color = '#E14E3E';
+        };
+        window.speechSynthesis.speak(u);
+        setTimeout(()=>{ if(!unlocked){ status.textContent = "⚠️ Beeps work, but voice narration isn't available here. Try Chrome or Safari."; status.style.color = '#E14E3E'; } }, 1400);
+      }catch(e){
+        status.textContent = '⚠️ Beeps work, but voice narration failed to start.';
+        status.style.color = '#E14E3E';
+      }
+    } else {
+      status.textContent = "⚠️ This browser doesn't support voice narration — sound effects will still work.";
+      status.style.color = '#E14E3E';
+    }
+  });
 });
 
-/* ================= MATCH GAME ================= */
-const sensePairs = [
-  {id:0, icon:"👀", text:"SEE — with my eyes", speakText:"See, with my eyes"},
-  {id:1, icon:"👂", text:"HEAR — with my ears", speakText:"Hear, with my ears"},
-  {id:2, icon:"👃", text:"SMELL — with my nose", speakText:"Smell, with my nose"},
-  {id:3, icon:"👅", text:"TASTE — with my tongue", speakText:"Taste, with my tongue"},
-  {id:4, icon:"✋", text:"TOUCH — with my hands", speakText:"Touch, with my hands"},
-];
-let matchState = {flipped:[], matched:0, lock:false};
+/* ================= ANIMATED / MOVING TEXT ================= */
+function animateText(el, text){
+  el.innerHTML = '';
+  text.split(' ').forEach((word, i)=>{
+    const span = document.createElement('span');
+    span.className = 'word-pop';
+    span.style.animationDelay = (i*0.045)+'s';
+    span.textContent = word + '\u00A0';
+    el.appendChild(span);
+  });
+}
 
+/* ================= UTIL ================= */
 function shuffle(arr){
   const a = arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -781,316 +426,670 @@ function shuffle(arr){
   return a;
 }
 
-function initMatchGame(){
-  matchState = {flipped:[], matched:0, lock:false};
-  const cards = [];
-  sensePairs.forEach(p=>{
-    cards.push({pairId:p.id, kind:'icon', content:p.icon, speakText:p.speakText});
-    cards.push({pairId:p.id, kind:'text', content:p.text, speakText:p.speakText});
-  });
-  const shuffled = shuffle(cards);
-  const grid = document.getElementById('matchGrid');
-  grid.innerHTML = '';
-  shuffled.forEach((c, idx)=>{
-    const el = document.createElement('div');
-    el.className = 'match-card';
-    el.dataset.pairId = c.pairId;
-    el.dataset.idx = idx;
-    el.innerHTML = '<span class="icon">❓</span><span>'+c.content+'</span>';
-    el.addEventListener('click', ()=>flipCard(el, c));
-    grid.appendChild(el);
-  });
-  updateMatchProgress();
-}
-
-function flipCard(el, data){
-  if(matchState.lock || el.classList.contains('flipped') || el.classList.contains('matched')) return;
-  el.classList.add('flipped');
-  playClick();
-  matchState.flipped.push({el, data});
-  if(matchState.flipped.length===2){
-    matchState.lock = true;
-    const [a,b] = matchState.flipped;
-    if(a.data.pairId === b.data.pairId && a.data.kind !== b.data.kind){
-      setTimeout(()=>{
-        a.el.classList.add('matched'); b.el.classList.add('matched');
-        matchState.matched++;
-        playCorrect();
-        speak(a.data.speakText);
-        updateMatchProgress();
-        matchState.flipped = [];
-        matchState.lock = false;
-        if(matchState.matched===5){
-          setTimeout(()=>{ playWin(); confettiBurst(70); }, 200);
-        }
-      }, 350);
-    } else {
-      a.el.classList.add('wrong'); b.el.classList.add('wrong');
-      playWrong();
-      setTimeout(()=>{
-        a.el.classList.remove('flipped','wrong');
-        b.el.classList.remove('flipped','wrong');
-        matchState.flipped = [];
-        matchState.lock = false;
-      }, 800);
-    }
+/* ================= GENERIC CHOICE-CARD GAME ================= */
+function buildChoiceCards(containerId, items, scoreLabelId, progressId){
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  const state = { score:0, answered:0 };
+  function updateLabel(){
+    document.getElementById(scoreLabelId).textContent = 'Score: '+state.score+' / '+items.length;
+    document.getElementById(progressId).style.width = (state.answered/items.length*100)+'%';
   }
-}
-function updateMatchProgress(){
-  document.getElementById('matchScoreLabel').textContent = matchState.matched+' / 5 matched';
-  document.getElementById('matchProgress').style.width = (matchState.matched/5*100)+'%';
-}
-
-/* ================= VOCAB FLASHCARDS ================= */
-const vocabWords = [
-  {w:"Senses", d:"The five ways we learn about the world around us."},
-  {w:"Energy", d:"The power to do things without feeling tired."},
-  {w:"Habits", d:"Things you do again and again, like brushing your teeth."},
-  {w:"Sharp mind", d:"Thinking clearly and quickly."},
-  {w:"Owner", d:"A person who has or runs something, like a shop."},
-  {w:"Greedy", d:"Always wanting more than you really need."},
-  {w:"Coin", d:"A small, round piece of money."},
-  {w:"Jingling", d:"The light, ringing sound coins make."},
-  {w:"Share", d:"To give part of what you have to someone else."},
-];
-
-function initFlashcards(){
-  const grid = document.getElementById('flashGrid');
-  grid.innerHTML = '';
-  vocabWords.forEach(v=>{
-    const outer = document.createElement('div');
-    outer.className = 'flash-outer';
-    outer.innerHTML = `
-      <div class="flash-inner">
-        <div class="flash-face flash-front">
-          <button class="speak-btn" aria-label="Listen">🔊</button>
-          <div class="word">${v.w}</div>
-          <div style="font-size:.65rem; opacity:.85; margin-top:6px; font-weight:700;">tap to flip</div>
-        </div>
-        <div class="flash-face flash-back">
-          <button class="speak-btn" aria-label="Listen">🔊</button>
-          <div>${v.d}</div>
-        </div>
-      </div>`;
-    outer.addEventListener('click', (e)=>{
-      if(e.target.closest('.speak-btn')){
-        e.stopPropagation();
-        speak(v.w);
-        playClick();
-        return;
-      }
-      outer.classList.toggle('flipped');
-      playClick();
-    });
-    grid.appendChild(outer);
-  });
-}
-
-/* ================= ROUTINE SEQUENCER ================= */
-const routineSteps = [
-  {seq:"First", act:"Wake up at 6:00 am & brush your teeth"},
-  {seq:"Next", act:"Eat a healthy breakfast"},
-  {seq:"Then", act:"Go to school & drink water"},
-  {seq:"After that", act:"Do homework & play sports"},
-  {seq:"Finally", act:"Take a shower & go to bed early"},
-];
-let routineUserOrder = [];
-
-function initRoutineGame(){
-  routineUserOrder = [];
-  const pool = document.getElementById('stepPool');
-  pool.innerHTML = '';
-  document.getElementById('answerList').innerHTML = '<span style="color:#AAB0C8; font-weight:700; padding:14px;">Your order will appear here...</span>';
-  const shuffled = shuffle(routineSteps.map((s,i)=>({...s, origIndex:i})));
-  shuffled.forEach(s=>{
-    const chip = document.createElement('button');
-    chip.className = 'step-chip';
-    chip.textContent = s.seq+': '+s.act;
-    chip.dataset.origIndex = s.origIndex;
-    chip.addEventListener('click', ()=>{
-      routineUserOrder.push(s.origIndex);
-      chip.remove();
-      renderAnswerList();
-      playClick();
-    });
-    pool.appendChild(chip);
-  });
-}
-function renderAnswerList(){
-  const list = document.getElementById('answerList');
-  if(routineUserOrder.length===0){
-    list.innerHTML = '<span style="color:#AAB0C8; font-weight:700; padding:14px;">Your order will appear here...</span>';
-    return;
-  }
-  list.innerHTML = '';
-  routineUserOrder.forEach((origIndex, i)=>{
-    const s = routineSteps[origIndex];
-    const item = document.createElement('div');
-    item.className = 'answer-item';
-    item.id = 'ans-'+i;
-    item.innerHTML = '<span class="num">'+(i+1)+'</span><span>'+s.seq+': '+s.act+'</span>';
-    list.appendChild(item);
-  });
-}
-function checkRoutine(){
-  if(routineUserOrder.length < 5){
-    playWrong();
-    return;
-  }
-  let allCorrect = true;
-  routineUserOrder.forEach((origIndex, i)=>{
-    const item = document.getElementById('ans-'+i);
-    if(origIndex === i){
-      item.classList.add('correct');
-    } else {
-      item.classList.add('incorrect');
-      allCorrect = false;
-    }
-  });
-  if(allCorrect){ playWin(); confettiBurst(50); }
-  else { playWrong(); }
-}
-
-/* ================= STORY ================= */
-const storySlides = [
-  {emoji:"🚶", text:"One morning, Goha walks through the market. He is hungry, but he has no money to buy food."},
-  {emoji:"🍲", text:"A wonderful smell comes from a restaurant. Goha sits outside and enjoys the smell of hot soup."},
-  {emoji:"😠", text:"The restaurant owner is greedy. He tells Goha he must pay — just for smelling the soup!"},
-  {emoji:"🪙", text:"Goha shakes a few coins in his hand. \"Take the sound of my coins, for the smell of your soup!\""},
-  {emoji:"😂", text:"The owner laughs at Goha's clever answer, and invites him inside to share the meal!"},
-];
-let storyIndex = 0;
-function renderStory(){
-  const s = storySlides[storyIndex];
-  document.getElementById('storyEmoji').textContent = s.emoji;
-  animateText(document.getElementById('storyText'), s.text);
-  const dots = document.getElementById('storyDots');
-  dots.innerHTML = '';
-  storySlides.forEach((_, i)=>{
-    const d = document.createElement('div');
-    d.className = 'dot'+(i===storyIndex?' active':'');
-    dots.appendChild(d);
-  });
-  document.getElementById('storyPrev').style.visibility = storyIndex===0?'hidden':'visible';
-  const nextBtn = document.getElementById('storyNext');
-  nextBtn.textContent = storyIndex===storySlides.length-1 ? '📝 Take the Quiz' : 'Next ➜';
-  document.getElementById('storyQuizPanel').style.display = 'none';
-  speak(s.text);
-}
-function storyStep(dir){
-  if(storyIndex===storySlides.length-1 && dir===1){
-    document.getElementById('storyQuizPanel').style.display = 'block';
-    renderTF();
-    document.getElementById('storyQuizPanel').scrollIntoView({behavior:'smooth', block:'start'});
-    playClick();
-    return;
-  }
-  storyIndex = Math.max(0, Math.min(storySlides.length-1, storyIndex+dir));
-  renderStory();
-  playClick();
-}
-
-const tfQuestions = [
-  {q:"Goha had plenty of money to buy food.", a:false},
-  {q:"The greedy owner asked Goha to pay just for smelling the soup.", a:true},
-  {q:"Goha paid the owner with real gold coins.", a:false},
-];
-let tfAnswered = 0, tfCorrect = 0;
-function renderTF(){
-  tfAnswered = 0; tfCorrect = 0;
-  const c = document.getElementById('tfContainer');
-  c.innerHTML = '';
-  document.getElementById('tfResult').textContent = '';
-  tfQuestions.forEach((item, idx)=>{
-    const div = document.createElement('div');
-    div.className = 'tf-q';
-    div.innerHTML = `<p>${idx+1}. ${item.q}</p>
-      <div class="tf-btns">
-        <button class="tf-btn" data-ans="true">✅ True</button>
-        <button class="tf-btn" data-ans="false">❌ False</button>
-      </div>`;
-    div.querySelectorAll('.tf-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        if(div.dataset.done) return;
-        div.dataset.done = "1";
-        const chosen = btn.dataset.ans === "true";
-        const correctBtn = div.querySelector('[data-ans="'+item.a+'"]');
-        if(chosen === item.a){
-          btn.classList.add('correct'); tfCorrect++; playCorrect();
-        } else {
-          btn.classList.add('wrong'); correctBtn.classList.add('correct'); playWrong();
-        }
-        tfAnswered++;
-        if(tfAnswered===tfQuestions.length){
-          document.getElementById('tfResult').textContent = 'You got '+tfCorrect+' / '+tfQuestions.length+' right! '+(tfCorrect===tfQuestions.length ? '🌟 Perfect!' : '👍 Nice try!');
-          if(tfCorrect===tfQuestions.length) confettiBurst(40);
-        }
-      });
-    });
-    c.appendChild(div);
-  });
-}
-
-/* ================= VOWEL GAME ================= */
-const vowelWords = [
-  {w:"hat", type:"short"},
-  {w:"plate", type:"long"},
-  {w:"pot", type:"short"},
-  {w:"home", type:"long"},
-  {w:"pen", type:"short"},
-  {w:"feed", type:"long"},
-  {w:"cup", type:"short"},
-  {w:"rain", type:"long"},
-];
-let vowelScore = 0, vowelAnswered = 0;
-function initVowelGame(){
-  vowelScore = 0; vowelAnswered = 0;
-  updateVowelProgress();
-  const list = document.getElementById('vowelList');
-  list.innerHTML = '';
-  shuffle(vowelWords).forEach(item=>{
+  updateLabel();
+  items.forEach(item=>{
     const card = document.createElement('div');
-    card.className = 'vowel-card';
-    card.innerHTML = `
-      <button class="mini-speak">🔊</button>
-      <div class="vowel-word">${item.w}</div>
-      <div class="vowel-choice">
-        <button data-choice="short">Short</button>
-        <button data-choice="long">Long</button>
-      </div>`;
-    card.querySelector('.mini-speak').addEventListener('click', ()=>speak(item.w));
-    card.querySelectorAll('.vowel-choice button').forEach(btn=>{
+    card.className = 'choice-card';
+    const promptEl = document.createElement('div');
+    promptEl.className = 'choice-prompt';
+    promptEl.textContent = item.prompt;
+    const choiceWrap = document.createElement('div');
+    choiceWrap.className = 'choice-wrap';
+    item.choices.forEach((choice, ci)=>{
+      const btn = document.createElement('button');
+      btn.textContent = choice;
       btn.addEventListener('click', ()=>{
         if(card.classList.contains('answered')) return;
         card.classList.add('answered');
-        const correct = btn.dataset.choice === item.type;
-        if(correct){ card.classList.add('correct'); vowelScore++; playCorrect(); }
-        else { card.classList.add('wrong'); playWrong(); }
-        vowelAnswered++;
-        updateVowelProgress();
-        if(vowelAnswered===vowelWords.length && vowelScore===vowelWords.length){
-          setTimeout(()=>confettiBurst(50), 200);
+        const correct = ci === item.correct;
+        if(correct){ card.classList.add('correct'); btn.classList.add('pick-correct'); state.score++; playCorrect(); }
+        else{
+          card.classList.add('wrong'); btn.classList.add('pick-wrong'); playWrong();
+          choiceWrap.children[item.correct].classList.add('pick-correct');
         }
+        state.answered++;
+        updateLabel();
       });
+      choiceWrap.appendChild(btn);
     });
-    list.appendChild(card);
+    card.appendChild(promptEl);
+    card.appendChild(choiceWrap);
+    container.appendChild(card);
   });
 }
-function updateVowelProgress(){
-  document.getElementById('vowelScoreLabel').textContent = 'Score: '+vowelScore+' / '+vowelWords.length;
-  document.getElementById('vowelProgress').style.width = (vowelAnswered/vowelWords.length*100)+'%';
+
+/* ================= TOPIC DATA ================= */
+const CHAR = { omar:"🧒", reem:"👧" };
+const TOPICS = [
+  {
+    id:"presSimple", category:"present", icon:"☀️", color:"var(--coral)",
+    title:"Present Simple", subtitle:"Daily habits & routines — things that are always true.",
+    machine:{ type:"A", mode:"presentSimple", verbs:[
+      {base:"play", stem:"play", suffix:"s"},
+      {base:"help", stem:"help", suffix:"s"},
+      {base:"read", stem:"read", suffix:"s"},
+      {base:"watch", stem:"watch", suffix:"es"},
+      {base:"brush", stem:"brush", suffix:"es"},
+      {base:"fix", stem:"fix", suffix:"es"},
+      {base:"study", stem:"stud", suffix:"ies"},
+      {base:"carry", stem:"carr", suffix:"ies"},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I wake up at six every morning."},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Wow! My sister wakes up at six too!"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: We add '-s' because 'sister' is he, she, or it!"},
+    ],
+    quiz:[
+      {prompt:"He ___ to music every night.", choices:["listen","listens","listening","listened"], correct:1},
+      {prompt:"They ___ football on weekends.", choices:["play","plays","played","playing"], correct:0},
+      {prompt:"My mom ___ breakfast every day.", choices:["cook","cooks","cooking","cooked"], correct:1},
+      {prompt:"I ___ my teeth twice a day.", choices:["brush","brushes","brushed","brushing"], correct:0},
+    ],
+  },
+  {
+    id:"presCont", category:"present", icon:"🏃", color:"var(--blue)",
+    title:"Present Continuous", subtitle:"Actions happening right now, at this moment.",
+    machine:{ type:"A", mode:"presentContinuous", verbs:[
+      {base:"play", ing:"playing"},
+      {base:"watch", ing:"watching"},
+      {base:"read", ing:"reading"},
+      {base:"write", ing:"writing"},
+      {base:"run", ing:"running"},
+      {base:"swim", ing:"swimming"},
+    ]},
+    dialogue:[
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Look! The birds are singing."},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Yes, and the sun is shining too!"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: We're having a beautiful morning!"},
+    ],
+    quiz:[
+      {prompt:"She ___ a letter right now.", choices:["write","writes","is writing","wrote"], correct:2},
+      {prompt:"We ___ for the test at the moment.", choices:["study","studies","are studying","studied"], correct:2},
+      {prompt:"I ___ this book now.", choices:["read","reads","am reading","readed"], correct:2},
+      {prompt:"Listen! The dog ___ loudly.", choices:["bark","barks","is barking","barked"], correct:2},
+    ],
+  },
+  {
+    id:"presPerfect", category:"present", icon:"✅", color:"var(--green)",
+    title:"Present Perfect", subtitle:"Something that happened at an unstated time before now.",
+    machine:{ type:"A", mode:"presentPerfect", verbs:[
+      {base:"eat", participle:"eaten"},
+      {base:"see", participle:"seen"},
+      {base:"go", participle:"gone"},
+      {base:"write", participle:"written"},
+      {base:"finish", participle:"finished"},
+      {base:"lose", participle:"lost"},
+      {base:"break", participle:"broken"},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Have you seen my pencil?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Yes, I have seen it on your desk!"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Thank you! I have looked everywhere."},
+    ],
+    quiz:[
+      {prompt:"She ___ her lunch already.", choices:["finish","finished","has finished","finishing"], correct:2},
+      {prompt:"We ___ Cairo three times.", choices:["visit","visited","have visited","visiting"], correct:2},
+      {prompt:"He ___ his keys again!", choices:["lose","lost","has lost","losing"], correct:2},
+      {prompt:"I ___ that movie before.", choices:["see","saw","have seen","seeing"], correct:2},
+    ],
+  },
+  {
+    id:"pastSimple", category:"past", icon:"📅", color:"var(--coral-dk)",
+    title:"Past Simple", subtitle:"Finished actions at a stated time in the past.",
+    machine:{ type:"B", mode:"pastSimple", verbs:[
+      {base:"play", regular:true, stem:"play", suffix:"ed", past:"played"},
+      {base:"watch", regular:true, stem:"watch", suffix:"ed", past:"watched"},
+      {base:"study", regular:true, stem:"stud", suffix:"ied", past:"studied"},
+      {base:"go", regular:false, past:"went"},
+      {base:"eat", regular:false, past:"ate"},
+      {base:"write", regular:false, past:"wrote"},
+    ]},
+    dialogue:[
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: I watched a great movie yesterday."},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Really? I went to my grandma's house."},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Sounds fun! What did you eat there?"},
+    ],
+    quiz:[
+      {prompt:"She ___ to the market yesterday.", choices:["go","goes","went","going"], correct:2},
+      {prompt:"They ___ their homework last night.", choices:["finish","finished","finishes","finishing"], correct:1},
+      {prompt:"I ___ a letter to my friend last week.", choices:["write","writes","wrote","writing"], correct:2},
+      {prompt:"He ___ football two days ago.", choices:["play","plays","played","playing"], correct:2},
+    ],
+  },
+  {
+    id:"pastCont", category:"past", icon:"🌆", color:"var(--purple)",
+    title:"Past Continuous", subtitle:"An action in progress at a moment in the past.",
+    machine:{ type:"A", mode:"pastContinuous", verbs:[
+      {base:"play", ing:"playing"},
+      {base:"cook", ing:"cooking"},
+      {base:"read", ing:"reading"},
+      {base:"sleep", ing:"sleeping"},
+      {base:"run", ing:"running"},
+      {base:"swim", ing:"swimming"},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: What were you doing at eight last night?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: I was doing my homework. What about you?"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I was watching TV with my family."},
+    ],
+    quiz:[
+      {prompt:"I ___ dinner when you called.", choices:["cook","cooked","was cooking","cooking"], correct:2},
+      {prompt:"They ___ in the park at noon.", choices:["play","played","were playing","playing"], correct:2},
+      {prompt:"She ___ a book when the lights went out.", choices:["read","reads","was reading","reading"], correct:2},
+      {prompt:"We ___ football when it started to rain.", choices:["play","played","were playing","plays"], correct:2},
+    ],
+  },
+  {
+    id:"pastPerfect", category:"past", icon:"⏳", color:"var(--blue)",
+    title:"Past Perfect", subtitle:"An action finished before another action in the past.",
+    machine:{ type:"B", mode:"pastPerfect", verbs:[
+      {base:"leave", participle:"left"},
+      {base:"finish", participle:"finished"},
+      {base:"see", participle:"seen"},
+      {base:"clean", participle:"cleaned"},
+    ]},
+    dialogue:[
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: When I arrived, the movie had already started."},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Oh no! Had you missed the beginning?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Yes, I had missed the first ten minutes."},
+    ],
+    quiz:[
+      {prompt:"She ___ before I arrived.", choices:["leave","left","had left","leaving"], correct:2},
+      {prompt:"We ___ our lunch before the bell rang.", choices:["finish","finished","had finished","finishing"], correct:2},
+      {prompt:"He ___ snow before that trip.", choices:["see","saw","had seen","seeing"], correct:2},
+      {prompt:"They ___ the house before it started raining.", choices:["clean","cleaned","had cleaned","cleaning"], correct:2},
+    ],
+  },
+  {
+    id:"modals", category:"rule", icon:"⚖️", color:"var(--green-dk)",
+    title:"Must / Have to / Should", subtitle:"Obligation, necessity, and advice.",
+    machine:{ type:"C", scenarios:[
+      {situation:"This is a strict school rule for everyone.", correct:"must", explain:"'must' shows a strong rule."},
+      {situation:"You look sick and tired today.", correct:"should", explain:"'should' gives friendly advice."},
+      {situation:"I promised to finish this before dinner.", correct:"have to", explain:"'have to' shows personal necessity."},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: You look tired. You should sleep early tonight."},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: You're right! And I have to finish my project too."},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Don't forget, we must bring our books tomorrow!"},
+    ],
+    quiz:[
+      {prompt:"Students ___ wear their uniform at school. (a strict rule)", choices:["must","could","would","might"], correct:0},
+      {prompt:"You look sick. You ___ see a doctor. (advice)", choices:["must","have to","should","will"], correct:2},
+      {prompt:"I ___ to finish my homework before dinner.", choices:["must","have","should","has"], correct:1},
+      {prompt:"We ___ be quiet in the library. (a rule)", choices:["should","must","will","would"], correct:1},
+    ],
+  },
+  {
+    id:"afterBefore", category:"rule", icon:"🔀", color:"var(--yellow-dk)",
+    title:"After / Before", subtitle:"Connecting two actions in order.",
+    machine:{ type:"D", subtype:"order", examples:[
+      {a:"I brush my teeth", b:"I go to sleep"},
+      {a:"we eat lunch", b:"we finish our lessons"},
+      {a:"she washes her hands", b:"she eats"},
+    ]},
+    dialogue:[
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: What do you do before breakfast?"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I wash my face before I eat. What about after breakfast?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: After breakfast, I go to school."},
+    ],
+    quiz:[
+      {prompt:"I brush my teeth ___ I go to sleep.", choices:["before","after","while","will"], correct:0},
+      {prompt:"We eat lunch ___ we finish our lessons.", choices:["before","after","if","used to"], correct:1},
+      {prompt:"She washes her hands ___ she eats.", choices:["after","before","while","must"], correct:1},
+      {prompt:"He does his homework ___ he watches TV.", choices:["after","before","while","should"], correct:1},
+    ],
+  },
+  {
+    id:"usedTo", category:"rule", icon:"🕰️", color:"var(--coral)",
+    title:"Used To", subtitle:"Past habits or states that are not true anymore.",
+    machine:{ type:"B", mode:"usedTo", verbs:[
+      {base:"play"}, {base:"live"}, {base:"climb"}, {base:"visit"},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: Did you use to live in Alexandria?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Yes, I used to live there when I was five."},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I used to visit my grandma every summer there!"},
+    ],
+    quiz:[
+      {prompt:"When I was young, I ___ climb trees every day.", choices:["use to","used to","uses to","using to"], correct:1},
+      {prompt:"He ___ be afraid of the dark, but not anymore.", choices:["use to","used to","uses to","is used to"], correct:1},
+      {prompt:"They ___ live in a small village.", choices:["used to","uses to","use to","using to"], correct:0},
+      {prompt:"I ___ eat vegetables when I was a kid, but I do now.", choices:["didn't used to","didn't use to","not used to","no used to"], correct:1},
+    ],
+  },
+  {
+    id:"willFuture", category:"rule", icon:"🔮", color:"var(--purple)",
+    title:"Will (Future)", subtitle:"Predictions, promises, and future plans.",
+    machine:{ type:"B", mode:"will", verbs:[
+      {base:"call"}, {base:"travel"}, {base:"help"}, {base:"visit"},
+    ]},
+    dialogue:[
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: What will you do this weekend?"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I will visit my cousins. Will you come with me?"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Yes, I will! It will be fun."},
+    ],
+    quiz:[
+      {prompt:"I ___ call you tomorrow.", choices:["will","would","was","used to"], correct:0},
+      {prompt:"She ___ travel to Aswan next month.", choices:["will","should","must","used to"], correct:0},
+      {prompt:"They ___ not be late, I promise.", choices:["will","would","used to","have"], correct:0},
+      {prompt:"___ you help me with my homework later?", choices:["Will","Did","Was","Have"], correct:0},
+    ],
+  },
+  {
+    id:"whileRule", category:"rule", icon:"⏱️", color:"var(--blue)",
+    title:"While", subtitle:"Two actions happening at the same time.",
+    machine:{ type:"D", subtype:"same-time", examples:[
+      {a:"I was reading", b:"my sister was cooking"},
+      {a:"the phone rang", b:"we were having dinner"},
+      {a:"it started to rain", b:"they were playing outside"},
+    ]},
+    dialogue:[
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I called you while you were sleeping!"},
+      {who:"Omar", emoji:CHAR.omar, line:"Omar: Sorry, I was so tired. What were you doing while I slept?"},
+      {who:"Reem", emoji:CHAR.reem, line:"Reem: I was doing my homework while you were sleeping."},
+    ],
+    quiz:[
+      {prompt:"___ I was cooking, my brother was cleaning.", choices:["While","After","Before","Will"], correct:0},
+      {prompt:"She was reading a book ___ I was watching TV.", choices:["while","before","after","used to"], correct:0},
+      {prompt:"The phone rang ___ we were having dinner.", choices:["while","should","must","will"], correct:0},
+      {prompt:"___ they were playing, it started to rain.", choices:["While","Used to","Will","Have"], correct:0},
+    ],
+  },
+];
+
+/* ================= HOME: BUILD TOPIC GRID ================= */
+function buildTopicGrid(gridId, category){
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  TOPICS.filter(t=>t.category===category).forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className = 'topic-card';
+    btn.innerHTML = `<div class="topic-icon" style="background:${t.color};">${t.icon}</div><div class="topic-name">${t.title}</div>`;
+    btn.addEventListener('click', ()=> loadTopic(t.id));
+    grid.appendChild(btn);
+  });
+}
+function buildChallengeCard(){
+  const grid = document.getElementById('challengeGrid');
+  grid.innerHTML = '';
+  const btn = document.createElement('button');
+  btn.className = 'topic-card';
+  btn.innerHTML = `<div class="topic-icon" style="background:var(--coral-dk);">🏆</div><div class="topic-name">Mixed Challenge</div>`;
+  btn.addEventListener('click', ()=>{ showScreen('challenge'); engines['challengePanel'].start(); });
+  grid.appendChild(btn);
 }
 
-/* ================= FINAL QUIZ ================= */
-const quizQuestions = [
-  {q:"Which sense do we use to smell flowers?", opts:["Touch","Smell","Taste","Hear"], a:1},
-  {q:'"He ___ football every day."', opts:["play","plays","playing","played"], a:1},
-  {q:"How does Goha cleverly pay for the smell of soup?", opts:["With real coins","With the sound of his coins","He doesn't pay","With food"], a:1},
-  {q:'Which word means "always wanting more than you need"?', opts:["Share","Greedy","Owner","Hungry"], a:1},
-  {q:"Which word has a LONG vowel sound?", opts:["hat","pot","feed","pen"], a:2},
-  {q:"What comes FIRST in a sequence?", opts:["Finally","Then","First","Next"], a:2},
-];
-/* ================= GENERIC MCQ QUIZ ENGINE (used by Listen & Final Quiz) ================= */
+/* ================= TOPIC SCREEN LOGIC ================= */
+let currentTopic = null;
+let dIdx = 0;
+
+function loadTopic(id){
+  const topic = TOPICS.find(t=>t.id===id);
+  if(!topic) return;
+  currentTopic = topic;
+  dIdx = 0;
+  machineIndex = 0;
+  document.getElementById('topicTag').textContent = topic.category==='present' ? 'PRESENT TENSE' : topic.category==='past' ? 'PAST TENSE' : 'GRAMMAR RULE';
+  document.getElementById('topicTag').style.background = topic.color;
+  document.getElementById('topicTitle').textContent = topic.title;
+  document.getElementById('topicSubtitle').textContent = topic.subtitle;
+  renderMachine();
+  renderDialogue();
+  buildChoiceCards('gameArea', topic.quiz, 'topicScoreLabel', 'topicProgress');
+  showScreen('topic');
+}
+
+/* ================= INTERACTIVE GRAMMAR MACHINES ================= */
+let machineIndex = 0;
+const subjLabels = {i:"I", you:"You", we:"We", they:"They", he:"He", she:"She", it:"It"};
+
+function triggerFly(el){
+  el.classList.remove('flying');
+  void el.offsetWidth; /* force reflow so the animation can replay */
+  el.classList.add('flying');
+}
+function playFly(){ try{ tone(320,0,.08); tone(520,.06,.08); tone(760,.12,.14); }catch(e){} }
+function morphWord(el, newText){
+  el.classList.remove('morph-in');
+  el.classList.add('morph-out');
+  setTimeout(()=>{
+    el.textContent = newText;
+    el.classList.remove('morph-out');
+    el.classList.add('morph-in');
+    setTimeout(()=> el.classList.remove('morph-in'), 400);
+  }, 220);
+}
+
+function renderMachine(){
+  const area = document.getElementById('machineArea');
+  const m = currentTopic.machine;
+  if(m.type === 'A') renderMachineA(area, m);
+  else if(m.type === 'B') renderMachineB(area, m);
+  else if(m.type === 'C') renderMachineC(area, m);
+  else if(m.type === 'D') renderMachineD(area, m);
+}
+
+/* ---- Machine A: subject agreement (present simple / continuous / perfect, past continuous) ---- */
+function auxForSubject(subj, mode){
+  const maps = {
+    presentContinuous:{i:"am",you:"are",we:"are",they:"are",he:"is",she:"is",it:"is"},
+    pastContinuous:{i:"was",you:"were",we:"were",they:"were",he:"was",she:"was",it:"was"},
+    presentPerfect:{i:"have",you:"have",we:"have",they:"have",he:"has",she:"has",it:"has"},
+  };
+  return maps[mode] ? maps[mode][subj] : '';
+}
+function renderMachineA(area, m){
+  const v = m.verbs[machineIndex % m.verbs.length];
+  area.innerHTML = `
+    <div class="verb-display">
+      <span class="m-piece aux" id="mAux" style="display:none;"></span>
+      <span class="m-word" id="mWord">${v.base}</span>
+      <span class="m-piece suffix" id="mSuffix" style="display:none;"></span>
+    </div>
+    <div class="m-note" id="mNote">Pick a subject to see what happens! 👆</div>
+    <div class="m-row" id="mSubjRow">
+      ${["i","you","we","they","he","she","it"].map(s=>`<button data-subj="${s}">${subjLabels[s]}</button>`).join('')}
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top:12px;">
+      <button class="btn btn-purple" id="mNextBtn">🔀 Try Another Verb</button>
+    </div>`;
+  document.querySelectorAll('#mSubjRow button').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectMachineASubject(btn.dataset.subj, btn, m, v));
+  });
+  document.getElementById('mNextBtn').addEventListener('click', ()=>{
+    machineIndex++;
+    renderMachineA(area, m);
+    playClick();
+  });
+}
+function selectMachineASubject(subj, btnEl, m, v){
+  document.querySelectorAll('#mSubjRow button').forEach(b=>{ b.classList.remove('active'); b.style.background=''; b.style.borderColor=''; });
+  const heGroup = (subj==='he'||subj==='she'||subj==='it');
+  btnEl.classList.add('active');
+  btnEl.style.background = heGroup ? 'var(--coral)' : 'var(--blue)';
+  btnEl.style.borderColor = heGroup ? 'var(--coral)' : 'var(--blue)';
+
+  const wordEl = document.getElementById('mWord');
+  const auxEl = document.getElementById('mAux');
+  const suffixEl = document.getElementById('mSuffix');
+  const note = document.getElementById('mNote');
+
+  if(m.mode === 'presentSimple'){
+    auxEl.style.display = 'none';
+    if(heGroup){
+      wordEl.textContent = v.stem;
+      suffixEl.style.display = 'inline-block';
+      suffixEl.textContent = '-'+v.suffix;
+      triggerFly(suffixEl); playFly();
+      note.textContent = subjLabels[subj]+' → add "-'+v.suffix+'"! Now it\'s "'+v.stem+v.suffix+'". ✨';
+      setTimeout(()=> speak(subjLabels[subj]+' '+v.stem+v.suffix), 500);
+    } else {
+      wordEl.textContent = v.base;
+      suffixEl.style.display = 'none'; suffixEl.classList.remove('flying');
+      playClick();
+      note.textContent = subjLabels[subj]+' → no change! Just "'+v.base+'".';
+      speak(subjLabels[subj]+' '+v.base);
+    }
+  } else if(m.mode === 'presentContinuous' || m.mode === 'pastContinuous'){
+    const aux = auxForSubject(subj, m.mode);
+    auxEl.style.display = 'inline-block';
+    auxEl.textContent = aux;
+    triggerFly(auxEl); playFly();
+    morphWord(wordEl, v.ing);
+    suffixEl.style.display = 'none';
+    note.textContent = subjLabels[subj]+' → "'+aux+'" + "'+v.ing+'". The verb ALWAYS changes here! ✨';
+    setTimeout(()=> speak(subjLabels[subj]+' '+aux+' '+v.ing), 550);
+  } else if(m.mode === 'presentPerfect'){
+    const aux = auxForSubject(subj, m.mode);
+    auxEl.style.display = 'inline-block';
+    auxEl.textContent = aux;
+    triggerFly(auxEl); playFly();
+    morphWord(wordEl, v.participle);
+    suffixEl.style.display = 'none';
+    note.textContent = subjLabels[subj]+' → "'+aux+'" + "'+v.participle+'" (past participle). ✨';
+    setTimeout(()=> speak(subjLabels[subj]+' '+aux+' '+v.participle), 550);
+  }
+}
+
+/* ---- Machine B: transform (past simple / past perfect / will / used to) ---- */
+function renderMachineB(area, m){
+  const v = m.verbs[machineIndex % m.verbs.length];
+  area.innerHTML = `
+    <div class="verb-display">
+      <span class="m-piece aux" id="mAux" style="display:none;"></span>
+      <span class="m-word" id="mWord">${v.base}</span>
+      <span class="m-piece suffix" id="mSuffix" style="display:none;"></span>
+    </div>
+    <div class="m-note" id="mNote">Tap "Transform!" to see the magic! ✨</div>
+    <div class="btn-row" style="justify-content:center; margin-top:8px;">
+      <button class="btn btn-coral" id="mTransformBtn">✨ Transform!</button>
+      <button class="btn btn-purple" id="mNextBtn">🔀 Try Another Verb</button>
+    </div>`;
+  document.getElementById('mTransformBtn').addEventListener('click', ()=> transformMachineB(m, v));
+  document.getElementById('mNextBtn').addEventListener('click', ()=>{
+    machineIndex++;
+    renderMachineB(area, m);
+    playClick();
+  });
+}
+function transformMachineB(m, v){
+  const wordEl = document.getElementById('mWord');
+  const auxEl = document.getElementById('mAux');
+  const suffixEl = document.getElementById('mSuffix');
+  const note = document.getElementById('mNote');
+
+  if(m.mode === 'pastSimple'){
+    if(v.regular){
+      auxEl.style.display = 'none';
+      wordEl.textContent = v.stem;
+      suffixEl.style.display = 'inline-block';
+      suffixEl.textContent = '-'+v.suffix;
+      triggerFly(suffixEl); playFly();
+      note.textContent = 'Regular verb → add "-'+v.suffix+'"! "'+v.stem+v.suffix+'".';
+      setTimeout(()=> speak(v.stem+v.suffix), 500);
+    } else {
+      auxEl.style.display = 'none'; suffixEl.style.display = 'none';
+      morphWord(wordEl, v.past);
+      note.textContent = 'Irregular verb → it changes completely! "'+v.base+'" becomes "'+v.past+'".';
+      setTimeout(()=> speak(v.past), 350);
+    }
+  } else if(m.mode === 'pastPerfect'){
+    auxEl.style.display = 'inline-block';
+    auxEl.textContent = 'had';
+    triggerFly(auxEl); playFly();
+    morphWord(wordEl, v.participle);
+    suffixEl.style.display = 'none';
+    note.textContent = '"had" + past participle → "had '+v.participle+'". Same for every subject!';
+    setTimeout(()=> speak('had '+v.participle), 550);
+  } else if(m.mode === 'will'){
+    auxEl.style.display = 'inline-block';
+    auxEl.textContent = 'will';
+    triggerFly(auxEl); playFly();
+    wordEl.textContent = v.base;
+    suffixEl.style.display = 'none';
+    note.textContent = '"will" + base verb, never changes! "will '+v.base+'".';
+    setTimeout(()=> speak('will '+v.base), 500);
+  } else if(m.mode === 'usedTo'){
+    auxEl.style.display = 'inline-block';
+    auxEl.textContent = 'used to';
+    triggerFly(auxEl); playFly();
+    wordEl.textContent = v.base;
+    suffixEl.style.display = 'none';
+    note.textContent = '"used to" + base verb → a habit that stopped. "used to '+v.base+'".';
+    setTimeout(()=> speak('used to '+v.base), 500);
+  }
+}
+
+/* ---- Machine C: scenario picker (modals) ---- */
+let scenarioIndex = 0;
+function renderMachineC(area, m){
+  const s = m.scenarios[scenarioIndex % m.scenarios.length];
+  area.innerHTML = `
+    <div class="m-note" id="mSituation" style="font-size:1rem; min-height:2.4em;"></div>
+    <div class="verb-display" style="min-height:50px;">
+      <span class="m-piece connector" id="mModalChip" style="display:none;"></span>
+    </div>
+    <div class="m-note" id="mNote">Which word fits best? 👇</div>
+    <div class="m-row" id="mModalRow">
+      <button data-choice="must">must</button>
+      <button data-choice="have to">have to</button>
+      <button data-choice="should">should</button>
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top:12px;">
+      <button class="btn btn-purple" id="mNextBtn">🔀 Next Scenario</button>
+    </div>`;
+  animateText(document.getElementById('mSituation'), '"'+s.situation+'"');
+  document.querySelectorAll('#mModalRow button').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectModal(btn, m, s));
+  });
+  document.getElementById('mNextBtn').addEventListener('click', ()=>{
+    scenarioIndex++;
+    renderMachineC(area, m);
+    playClick();
+  });
+}
+function selectModal(btnEl, m, s){
+  const row = document.getElementById('mModalRow');
+  if(row.dataset.done) return;
+  row.dataset.done = "1";
+  const chip = document.getElementById('mModalChip');
+  const note = document.getElementById('mNote');
+  const correct = btnEl.dataset.choice === s.correct;
+  if(correct){
+    btnEl.classList.add('active'); btnEl.style.background = 'var(--green)'; btnEl.style.borderColor='var(--green)';
+    chip.style.display = 'inline-block';
+    chip.textContent = s.correct;
+    chip.style.background = 'var(--green)';
+    triggerFly(chip); playFly();
+    note.textContent = '✅ Correct! '+s.explain;
+    setTimeout(()=> speak(s.correct+'. '+s.explain), 500);
+  } else {
+    btnEl.style.background = 'var(--coral)'; btnEl.style.borderColor='var(--coral)'; btnEl.style.color='#fff';
+    playWrong();
+    const correctBtn = Array.from(row.children).find(b=>b.dataset.choice===s.correct);
+    correctBtn.style.background='var(--green)'; correctBtn.style.borderColor='var(--green)'; correctBtn.style.color='#fff';
+    chip.style.display='inline-block'; chip.textContent=s.correct; chip.style.background='var(--green)';
+    triggerFly(chip);
+    note.textContent = 'Not quite — the answer is "'+s.correct+'". '+s.explain;
+  }
+}
+
+/* ---- Machine D: connector (after/before, while) ---- */
+let connectorIndex = 0;
+function renderMachineD(area, m){
+  connectorIndex = machineIndex;
+  const ex = m.examples[connectorIndex % m.examples.length];
+  if(m.subtype === 'order'){
+    area.innerHTML = `
+      <div class="action-row" id="actionRow">
+        <div class="action-block" id="blockA">${cap(ex.a)}</div>
+        <span id="connSlot"></span>
+        <div class="action-block" id="blockB">${cap(ex.b)}</div>
+      </div>
+      <div class="m-note" id="mNote">Pick a connector! 👇</div>
+      <div class="m-row" id="mConnRow">
+        <button data-choice="before">before</button>
+        <button data-choice="after">after</button>
+      </div>
+      <div class="btn-row" style="justify-content:center; margin-top:12px;">
+        <button class="btn btn-purple" id="mNextBtn">🔀 Try Another Pair</button>
+      </div>`;
+    document.querySelectorAll('#mConnRow button').forEach(btn=>{
+      btn.addEventListener('click', ()=> selectConnector(btn, ex));
+    });
+  } else {
+    area.innerHTML = `
+      <div class="action-row" id="actionRow">
+        <div class="action-block" id="blockA">${cap(ex.a)}</div>
+        <span id="connSlot"></span>
+        <div class="action-block" id="blockB">${cap(ex.b)}</div>
+      </div>
+      <div class="m-note" id="mNote">Tap Play to see both actions happen at the SAME time! ▶️</div>
+      <div class="btn-row" style="justify-content:center; margin-top:8px;">
+        <button class="btn btn-coral" id="mPlayBtn">▶️ Play "while"</button>
+      </div>
+      <div class="btn-row" style="justify-content:center; margin-top:8px;">
+        <button class="btn btn-purple" id="mNextBtn">🔀 Try Another Pair</button>
+      </div>`;
+    document.getElementById('mPlayBtn').addEventListener('click', ()=> playWhile(ex));
+  }
+  document.getElementById('mNextBtn').addEventListener('click', ()=>{
+    machineIndex++;
+    renderMachineD(area, m);
+    playClick();
+  });
+}
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function selectConnector(btnEl, ex){
+  const row = document.getElementById('mConnRow');
+  document.querySelectorAll('#mConnRow button').forEach(b=>{ b.classList.remove('active'); b.style.background=''; b.style.borderColor=''; });
+  btnEl.classList.add('active'); btnEl.style.background='var(--purple)'; btnEl.style.borderColor='var(--purple)';
+  const connSlot = document.getElementById('connSlot');
+  const note = document.getElementById('mNote');
+  const actionRow = document.getElementById('actionRow');
+  const choice = btnEl.dataset.choice;
+  connSlot.innerHTML = '<span class="connector-chip">'+choice+'</span>';
+  playFly();
+  let sentence;
+  if(choice === 'before'){
+    actionRow.style.flexDirection = 'row';
+    sentence = cap(ex.a)+' before '+ex.b+'.';
+    note.textContent = '"'+ex.a+'" happens FIRST, "'+ex.b+'" happens SECOND.';
+  } else {
+    actionRow.style.flexDirection = 'row-reverse';
+    sentence = cap(ex.b)+' after '+ex.a+'.';
+    note.textContent = 'Order flips! "'+ex.b+'" happens AFTER "'+ex.a+'".';
+  }
+  setTimeout(()=> speak(sentence), 400);
+}
+function playWhile(ex){
+  const blockA = document.getElementById('blockA');
+  const blockB = document.getElementById('blockB');
+  const connSlot = document.getElementById('connSlot');
+  const note = document.getElementById('mNote');
+  blockA.classList.add('pulse');
+  blockB.classList.add('pulse');
+  connSlot.innerHTML = '<span class="connector-chip">while</span>';
+  playFly();
+  note.textContent = 'Both actions happen at the exact SAME moment! ⏱️';
+  const sentence = cap(ex.a)+' while '+ex.b+'.';
+  setTimeout(()=> speak(sentence), 400);
+  setTimeout(()=>{ blockA.classList.remove('pulse'); blockB.classList.remove('pulse'); }, 3000);
+}
+
+function renderDialogue(){
+  const d = currentTopic.dialogue[dIdx];
+  document.getElementById('dEmoji').textContent = d.emoji;
+  animateText(document.getElementById('dText'), d.line);
+  const dots = document.getElementById('dDots');
+  dots.innerHTML = '';
+  currentTopic.dialogue.forEach((_, i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'dot'+(i===dIdx?' active':'');
+    dots.appendChild(dot);
+  });
+  document.getElementById('dPrev').style.visibility = dIdx===0 ? 'hidden' : 'visible';
+  const nextBtn = document.getElementById('dNext');
+  nextBtn.textContent = dIdx===currentTopic.dialogue.length-1 ? '✅ Done' : 'Next ➜';
+}
+function dStep(dir){
+  if(dIdx===currentTopic.dialogue.length-1 && dir===1){ playClick(); return; }
+  dIdx = Math.max(0, Math.min(currentTopic.dialogue.length-1, dIdx+dir));
+  renderDialogue();
+  playClick();
+}
+
+/* ================= GENERIC MCQ QUIZ ENGINE (Mixed Challenge) ================= */
 const engines = {};
 function createQuizEngine(panelId, questions){
   let idx = 0, score = 0;
@@ -1110,12 +1109,8 @@ function createQuizEngine(panelId, questions){
       btn.textContent = opt;
       btn.addEventListener('click', ()=>{
         Array.from(optList.children).forEach(o=>o.disabled = true);
-        if(i === item.a){
-          btn.classList.add('correct'); score++; playCorrect();
-        } else {
-          btn.classList.add('wrong'); playWrong();
-          optList.children[item.a].classList.add('correct');
-        }
+        if(i === item.a){ btn.classList.add('correct'); score++; playCorrect(); }
+        else{ btn.classList.add('wrong'); playWrong(); optList.children[item.a].classList.add('correct'); }
         setTimeout(()=>{ idx++; render(); }, 950);
       });
       optList.appendChild(btn);
@@ -1124,11 +1119,11 @@ function createQuizEngine(panelId, questions){
   function renderResult(){
     const pct = score/questions.length;
     let stars = pct===1 ? "⭐⭐⭐⭐⭐" : pct>=0.8 ? "⭐⭐⭐⭐" : pct>=0.6 ? "⭐⭐⭐" : pct>=0.4 ? "⭐⭐" : "⭐";
-    let msg = pct===1 ? "Perfect score! You're a Senses Superstar! 🌟" : pct>=0.6 ? "Great job! You really know this! 🎉" : "Good try! Play again to boost your score. 💪";
+    let msg = pct===1 ? "Perfect score! You're a Grammar Champion! 🌟" : pct>=0.6 ? "Great job! You really know your grammar! 🎉" : "Good try! Review the topics and play again. 💪";
     panel.innerHTML = `
       <div class="score-screen">
         <div class="stars">${stars}</div>
-        <div style="font-weight:700; color:#57628A;">You scored</div>
+        <div style="font-weight:700; color:var(--gray);">You scored</div>
         <div class="score-num">${score} / ${questions.length}</div>
         <p style="font-weight:700;">${msg}</p>
         <button class="btn btn-coral" onclick="engines['${panelId}'].start()">🔄 Play Again</button>
@@ -1140,246 +1135,26 @@ function createQuizEngine(panelId, questions){
   engines[panelId] = engine;
   return engine;
 }
-
-/* ================= LISTEN: MS. MONA DIALOGUE ================= */
-const listenDialogue = [
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Good morning, children! What a beautiful day in the school garden."},
-  {who:"Sami", emoji:"🧒", line:"Sami: Good morning, Ms. Mona! What will we learn today?"},
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Today, we'll learn about our amazing senses."},
-  {who:"Salma", emoji:"👧", line:"Salma: What are senses, Ms. Mona?"},
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Senses help us understand the world around us, like sight, hearing, and smell."},
-  {who:"Sami", emoji:"🧒", line:"Sami: I can hear birds singing!"},
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Yes! That's your sense of hearing. What else can we use?"},
-  {who:"Salma", emoji:"👧", line:"Salma: I can smell the flowers and see the colorful butterflies!"},
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Excellent! Those are your senses of smell and sight. Senses also help us stay safe."},
-  {who:"Sami", emoji:"🧒", line:"Sami: Ms. Mona, how do our senses help us stay safe?"},
-  {who:"Ms. Mona", emoji:"👩‍🏫", line:"Ms. Mona: Great question! For example, if we smell smoke, we know there's a fire."},
+const mixedChallengeQuestions = [
+  {q:"She ___ to school every day.", opts:["walk","walks","walking","walked"], a:1},
+  {q:"Listen! The dog ___ loudly.", opts:["bark","barks","is barking","barked"], a:2},
+  {q:"I ___ that movie before.", opts:["see","saw","have seen","seeing"], a:2},
+  {q:"He ___ football two days ago.", opts:["play","plays","played","playing"], a:2},
+  {q:"I ___ dinner when you called.", opts:["cook","cooked","was cooking","cooking"], a:2},
+  {q:"She ___ before I arrived.", opts:["leave","left","had left","leaving"], a:2},
+  {q:"We ___ be quiet in the library.", opts:["should","must","will","would"], a:1},
+  {q:"I brush my teeth ___ I go to sleep.", opts:["before","after","while","will"], a:0},
+  {q:"When I was young, I ___ climb trees every day.", opts:["use to","used to","uses to","using to"], a:1},
+  {q:"___ you help me with my homework later?", opts:["Will","Did","Was","Have"], a:0},
+  {q:"___ I was cooking, my brother was cleaning.", opts:["While","After","Before","Will"], a:0},
 ];
-let dialogIndex = 0;
-function renderDialog(){
-  const d = listenDialogue[dialogIndex];
-  document.getElementById('dialogEmoji').textContent = d.emoji;
-  animateText(document.getElementById('dialogText'), d.line);
-  const dots = document.getElementById('dialogDots');
-  dots.innerHTML = '';
-  listenDialogue.forEach((_, i)=>{
-    const dot = document.createElement('div');
-    dot.className = 'dot'+(i===dialogIndex?' active':'');
-    dots.appendChild(dot);
-  });
-  document.getElementById('dialogPrev').style.visibility = dialogIndex===0 ? 'hidden' : 'visible';
-  const nextBtn = document.getElementById('dialogNext');
-  nextBtn.textContent = dialogIndex===listenDialogue.length-1 ? '📝 Answer Questions' : 'Next ➜';
-  document.getElementById('listenQuizPanel').style.display = 'none';
-}
-function dialogStep(dir){
-  if(dialogIndex===listenDialogue.length-1 && dir===1){
-    document.getElementById('listenQuizPanel').style.display = 'block';
-    engines['listenQuizPanel'].start();
-    document.getElementById('listenQuizPanel').scrollIntoView({behavior:'smooth', block:'start'});
-    playClick();
-    return;
-  }
-  dialogIndex = Math.max(0, Math.min(listenDialogue.length-1, dialogIndex+dir));
-  renderDialog();
-  playClick();
-}
-const listenQuestions = [
-  {q:"Where are Ms. Mona and the students?", opts:["At the zoo","In the school garden","In the classroom","At home"], a:1},
-  {q:"What can Sami hear?", opts:["Birds singing","Music playing","Cars honking","Dogs barking"], a:0},
-  {q:"Which sense do we use to see butterflies?", opts:["Sense of smell","Sense of taste","Sense of sight","Sense of touch"], a:2},
-  {q:"How can our senses help us stay safe?", opts:["By making us hungry","By smelling smoke, we know there's a fire","By helping us sleep","By making us tired"], a:1},
-];
-
-/* ================= VERB MACHINE (animated -s / -es / -ies) ================= */
-const verbBank = [
-  {baseForm:"play",  stem:"play",  suffix:"s"},
-  {baseForm:"help",  stem:"help",  suffix:"s"},
-  {baseForm:"read",  stem:"read",  suffix:"s"},
-  {baseForm:"watch", stem:"watch", suffix:"es"},
-  {baseForm:"brush", stem:"brush", suffix:"es"},
-  {baseForm:"fix",   stem:"fix",   suffix:"es"},
-  {baseForm:"study", stem:"stud",  suffix:"ies"},
-  {baseForm:"carry", stem:"carr",  suffix:"ies"},
-];
-const subjLabels = {i:"I", you:"You", we:"We", they:"They", he:"He", she:"She", it:"It"};
-let vmIndex = 0;
-let vmSubject = null;
-
-function playFly(){ try{ tone(320,0,0.08); tone(520,0.06,0.08); tone(760,0.12,0.14); }catch(e){} }
-
-function triggerFly(el){
-  el.classList.remove('flying');
-  void el.offsetWidth; /* force reflow so the animation can replay */
-  el.classList.add('flying');
-}
-
-function selectSubject(subj, btnEl){
-  vmSubject = subj;
-  document.querySelectorAll('#subjectRow button').forEach(b=>{
-    b.classList.remove('active');
-    b.style.background = ''; b.style.color = ''; b.style.borderColor = '';
-  });
-  const heGroup = (subj==='he' || subj==='she' || subj==='it');
-  btnEl.classList.add('active');
-  btnEl.style.background = heGroup ? 'var(--coral)' : 'var(--blue)';
-  btnEl.style.borderColor = heGroup ? 'var(--coral)' : 'var(--blue)';
-
-  const v = verbBank[vmIndex];
-  const wordEl = document.getElementById('verbBase');
-  const suffixEl = document.getElementById('verbSuffix');
-  const note = document.getElementById('verbMachineNote');
-
-  if(heGroup){
-    wordEl.textContent = v.stem;
-    suffixEl.textContent = v.suffix;
-    triggerFly(suffixEl);
-    playFly();
-    note.textContent = subjLabels[subj]+' → add "-'+v.suffix+'"! Now it\'s "'+v.stem+v.suffix+'". ✨';
-    setTimeout(()=> speak(subjLabels[subj]+' '+v.stem+v.suffix), 500);
-  } else {
-    wordEl.textContent = v.baseForm;
-    suffixEl.textContent = '';
-    suffixEl.classList.remove('flying');
-    playClick();
-    note.textContent = subjLabels[subj]+' → no change! Just "'+v.baseForm+'".';
-    speak(subjLabels[subj]+' '+v.baseForm);
-  }
-}
-
-function nextVerb(){
-  vmIndex = (vmIndex+1) % verbBank.length;
-  vmSubject = null;
-  document.querySelectorAll('#subjectRow button').forEach(b=>{
-    b.classList.remove('active');
-    b.style.background = ''; b.style.color = ''; b.style.borderColor = '';
-  });
-  const v = verbBank[vmIndex];
-  document.getElementById('verbBase').textContent = v.baseForm;
-  const suffixEl = document.getElementById('verbSuffix');
-  suffixEl.textContent = '';
-  suffixEl.classList.remove('flying');
-  document.getElementById('verbMachineNote').textContent = 'Pick a subject to see what happens! 👆';
-  playClick();
-}
-
-function initVerbMachine(){
-  const v = verbBank[vmIndex];
-  document.getElementById('verbBase').textContent = v.baseForm;
-  document.querySelectorAll('#subjectRow button').forEach(btn=>{
-    btn.addEventListener('click', ()=> selectSubject(btn.dataset.subj, btn));
-  });
-}
-
-/* ================= GENERIC CHOICE-CARD GAME (Grammar & Fix-the-Mistake) ================= */
-function buildChoiceCards(containerId, items, scoreLabelId, progressId){
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  const state = { score:0, answered:0 };
-  function updateLabel(){
-    document.getElementById(scoreLabelId).textContent = 'Score: '+state.score+' / '+items.length;
-    document.getElementById(progressId).style.width = (state.answered/items.length*100)+'%';
-  }
-  updateLabel();
-  items.forEach(item=>{
-    const card = document.createElement('div');
-    card.className = 'vowel-card';
-    const promptEl = document.createElement('div');
-    promptEl.className = 'vowel-word long-prompt';
-    promptEl.textContent = item.prompt;
-    const choiceWrap = document.createElement('div');
-    choiceWrap.className = 'vowel-choice';
-    item.choices.forEach((choice, ci)=>{
-      const btn = document.createElement('button');
-      btn.textContent = choice;
-      btn.addEventListener('click', ()=>{
-        if(card.classList.contains('answered')) return;
-        card.classList.add('answered');
-        const correct = ci === item.correct;
-        if(correct){ card.classList.add('correct'); state.score++; playCorrect(); }
-        else{ card.classList.add('wrong'); playWrong(); }
-        state.answered++;
-        updateLabel();
-      });
-      choiceWrap.appendChild(btn);
-    });
-    card.appendChild(promptEl);
-    card.appendChild(choiceWrap);
-    container.appendChild(card);
-  });
-}
-const grammarQuestions = [
-  {prompt:"She ___ vitamins every morning.", choices:["take","takes"], correct:1},
-  {prompt:"My brother and I ___ TV in the evening.", choices:["watch","watches"], correct:0},
-  {prompt:"My sister ___ English every day.", choices:["study","studies"], correct:1},
-  {prompt:"The nurse ___ sick people.", choices:["help","helps"], correct:1},
-  {prompt:"He ___ in the morning. (picture: a boy reading)", choices:["read","reads"], correct:1},
-  {prompt:"The girls ___ TV every day.", choices:["watch","watches"], correct:0},
-];
-const fixMistakeQuestions = [
-  {prompt:'"We sees with our eyes." — pick the correct verb:', choices:["see","seeing","saw"], correct:0},
-  {prompt:'"Ali eat healthy food every day." — pick the correct verb:', choices:["eating","eats","ate"], correct:1},
-  {prompt:'"My sister and I sleeps early every night." — pick the correct verb:', choices:["sleep","sleeping","sleeps"], correct:0},
-  {prompt:'"Layla drink water every morning." — pick the correct verb:', choices:["drinking","drink","drinks"], correct:2},
-];
-function initGrammarGame(){ buildChoiceCards('grammarList', grammarQuestions, 'grammarScoreLabel', 'grammarProgress'); }
-function initFixGame(){ buildChoiceCards('fixList', fixMistakeQuestions, 'fixScoreLabel', 'fixProgress'); }
-
-/* ================= CREATE & REFLECT (Lesson 5 + Quick Review) ================= */
-function toggleSamples(){
-  const el = document.getElementById('sampleAnswers');
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
-  playClick();
-}
-function checkHabits(){
-  const h1 = document.getElementById('habit1').value.trim();
-  const h2 = document.getElementById('habit2').value.trim();
-  const h3 = document.getElementById('habit3').value.trim();
-  const msg = document.getElementById('habitsMsg');
-  playClick();
-  if(h1 && h2 && h3){
-    msg.textContent = '🌟 Great habits! Keep it up!';
-    msg.style.color = '#279066';
-    confettiBurst(30);
-    speak('Great healthy habits! '+h1+'. '+h2+'. '+h3+'.');
-  } else {
-    msg.textContent = '✏️ Fill in all three habits first, then tap again!';
-    msg.style.color = '#E14E3E';
-  }
-}
-function practiceReadPresentation(){
-  const title = document.getElementById('presTitle').value.trim() || 'My healthy eating habits';
-  const p1 = document.getElementById('presPoint1').value.trim();
-  const p2 = document.getElementById('presPoint2').value.trim();
-  const p3 = document.getElementById('presPoint3').value.trim();
-  let text = title + '. ';
-  [p1, p2, p3].forEach(p=>{ if(p) text += p + '. '; });
-  speak(text);
-  playClick();
-}
-function setPresRating(n){
-  for(let i=1;i<=5;i++){
-    document.getElementById('presStar'+i).textContent = i<=n ? '⭐' : '☆';
-  }
-  const msgs = ["Keep practicing!","Getting better!","Good job!","Very good!","Excellent! 🌟"];
-  document.getElementById('presRatingMsg').textContent = msgs[n-1];
-  playClick();
-  if(n===5) confettiBurst(30);
-}
 
 /* ================= INIT ALL ================= */
-animateText(document.getElementById('heroTitle'), document.getElementById('heroTitle').textContent);
-initMatchGame();
-renderDialog();
-createQuizEngine('listenQuizPanel', listenQuestions);
-initFlashcards();
-initVerbMachine();
-initGrammarGame();
-initFixGame();
-initRoutineGame();
-renderStory();
-initVowelGame();
-createQuizEngine('quizPanel', quizQuestions).start();
+buildTopicGrid('presentGrid', 'present');
+buildTopicGrid('pastGrid', 'past');
+buildTopicGrid('ruleGrid', 'rule');
+buildChallengeCard();
+createQuizEngine('challengePanel', mixedChallengeQuestions);
 </script>
 </body>
 </html>
